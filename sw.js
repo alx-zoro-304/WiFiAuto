@@ -1,10 +1,12 @@
-const CACHE = 'wifi-auto-v1'
+const CACHE = 'wifi-auto-v2'
 const ASSETS = [
   './',
   './index.html',
   './icon.png',
   './icon-192.png',
   './icon-512.png',
+  './avatar.png',
+  './og-image.png',
   './manifest.webmanifest',
   './version.json'
 ]
