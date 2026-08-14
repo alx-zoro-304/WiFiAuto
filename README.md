@@ -33,17 +33,23 @@
 > ملاحظة: كل ملف في `tool/` يُنسخ تلقائياً إلى `downloads/` وقت البناء،
 > والحزمة `WiFiAuto_v2.zip` تُبنى من نفس المجلد.
 
-## الرفع لأول مرة (GitHub)
+## الرفع لأول مرة (GitHub) — تم بالفعل ✅
+
+الموقع منشور حي على: **https://alx-zoro-304.github.io/WiFiAuto/**
+
+النشر الحالي: فرع `gh-pages` (يحتوي مخرجات البناء) — يُحدَّث يدوياً بـ:
 
 ```bash
-git init && git add -A && git commit -m "WiFi Auto official site v2.0"
-git remote add origin https://github.com/ALX-ZORO/WiFiAuto.git
-git branch -M main
-git push -u origin main
+./scripts/sync-tool.sh && npm run build
+git branch -D gh-pages 2>/dev/null; git checkout --orphan gh-pages
+git rm -qrf . && cp -r dist/* . && touch .nojekyll
+git add -A && git commit -m "deploy" && git push -f origin gh-pages
+git checkout main
 ```
 
-ثم من صفحة الريبو: **Settings → Pages → Source: GitHub Actions**.
-الموقع سيكون على: `https://alx-zoro-304.github.io/WiFiAuto/`
+> ⚠️ ملف `.github/workflows/deploy.yml` (النشر التلقائي مع كل push) جاهز
+> محفوظ في `~/.config/opencode` مؤقتاً، ويُستعاد ليفعل النشر التلقائي بعد
+> إضافة صلاحية `workflow` للـ token عبر `gh auth refresh -s workflow`.
 
 > ⚠️ إذا غيّرت اسم الريبو عن `WiFiAuto`، عدّل الروابط في:
 > `tool/updater.py` (السطران UPDATE_URL و DOWNLOAD_BASE) و `version.json` (homepage).
