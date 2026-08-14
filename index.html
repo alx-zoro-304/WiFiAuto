@@ -12,18 +12,30 @@
   <meta property="og:title" content="ALX-ZORO — Technical & Engineering Solutions" />
   <meta property="og:description" content="Python developer · Cybersecurity enthusiast · Creator of WiFi Auto & MAC Changer Pro." />
   <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://alx-zoro-304.github.io/WiFiAuto/" />
+  <meta property="og:image" content="./og-image.png" />
+  <meta name="twitter:card" content="summary_large_image" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Cairo:wght@400;600;700;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
 </head>
 <body>
+  <div id="scrollProgress"></div>
+  <div class="bg-noise"></div>
+  <div class="cursor-glow" id="cursorGlow"></div>
+  <div class="aurora" aria-hidden="true">
+    <div class="aurora-orb a1"></div>
+    <div class="aurora-orb a2"></div>
+    <div class="aurora-orb a3"></div>
+  </div>
+
   <!-- ======= NAVBAR ======= -->
   <header id="navbar" class="fixed top-0 inset-x-0 z-50 transition-all duration-300">
     <nav class="max-w-7xl mx-auto px-5 lg:px-8 flex items-center justify-between h-16">
       <a href="#top" class="flex items-center gap-3 group">
-        <img src="./icon.png" alt="ALX-ZORO logo" class="w-9 h-9 rounded-lg shadow-glow transition-transform duration-300 group-hover:scale-110" />
+        <img src="./icon.png" alt="ALX-ZORO logo" class="w-9 h-9 rounded-lg shadow-glow transition-transform duration-300 group-hover:scale-110 group-hover:rotate-6" />
         <span class="font-display font-bold text-lg tracking-wide text-white">
-          ALX-<span class="text-cyan-400">ZORO</span>
+          ALX-<span class="grad-text">ZORO</span>
         </span>
       </a>
 
@@ -63,65 +75,98 @@
     <section class="relative pt-36 pb-24 overflow-hidden">
       <canvas id="particles" class="absolute inset-0 w-full h-full"></canvas>
       <div class="absolute inset-0 bg-grid"></div>
-      <div class="absolute -top-40 -left-40 w-[500px] h-[500px] bg-cyan-500/10 rounded-full blur-3xl"></div>
-      <div class="absolute -bottom-40 -right-40 w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-3xl"></div>
+      <div class="hero-orb o-left"></div>
+      <div class="hero-orb o-right"></div>
 
       <div class="relative max-w-7xl mx-auto px-5 lg:px-8 grid lg:grid-cols-2 gap-16 items-center">
         <div>
-          <div class="hero-badge reveal">
+          <div class="hero-badge reveal" data-delay="0">
             <span class="pulse-dot"></span>
             <span data-i18n="hero_badge">Python Developer · Cybersecurity Enthusiast</span>
           </div>
-          <h1 class="mt-6 font-display text-4xl sm:text-5xl xl:text-6xl font-bold leading-tight text-white reveal">
-            <span class="grad-text">ALX-ZORO</span><br />
+          <h1 class="mt-6 font-display text-4xl sm:text-5xl xl:text-6xl font-bold leading-tight text-white reveal" data-delay="100">
+            <span class="grad-text split-anim">ALX-ZORO</span><br />
             <span class="typed-line"><span id="typedText"></span><span class="t-cursor">▊</span></span>
           </h1>
-          <p class="mt-6 text-slate-400 text-lg leading-relaxed max-w-xl reveal" data-i18n="hero_sub">
+          <p class="mt-6 text-slate-400 text-lg leading-relaxed max-w-xl reveal" data-delay="200" data-i18n="hero_sub">
             I build self-contained Python tools that solve real technical and
             engineering problems — from network recovery to system automation.
             Every tool is portable, dependency-free, and tested the hard way.
           </p>
-          <div class="mt-8 flex flex-wrap gap-4 reveal">
+          <div class="mt-8 flex flex-wrap gap-4 reveal" data-delay="300">
             <a href="#tools" class="btn btn-accent btn-lg" data-i18n="hero_cta_1">Explore my tools</a>
             <a href="#about" class="btn btn-ghost btn-lg" data-i18n="hero_cta_2">About me</a>
           </div>
-          <div class="mt-8 flex flex-wrap gap-6 text-sm text-slate-400 reveal">
+          <div class="mt-8 flex flex-wrap gap-6 text-sm text-slate-400 reveal" data-delay="400">
             <span class="inline-flex items-center gap-2"><span class="tick">✓</span><span data-i18n="hero_tick_1">Python engineering</span></span>
             <span class="inline-flex items-center gap-2"><span class="tick">✓</span><span data-i18n="hero_tick_2">Cybersecurity</span></span>
             <span class="inline-flex items-center gap-2"><span class="tick">✓</span><span data-i18n="hero_tick_3">Windows + Linux</span></span>
           </div>
+          <div class="mt-10 grid grid-cols-3 gap-6 max-w-md hero-stats reveal" data-delay="500">
+            <div class="stat">
+              <span class="stat-num" data-count="5">0</span>
+              <span class="stat-label" data-i18n="hs1">Tools shipped</span>
+            </div>
+            <div class="stat">
+              <span class="stat-num" data-count="2044">0</span>
+              <span class="stat-label" data-i18n="hs2">Deep-scan addresses</span>
+            </div>
+            <div class="stat">
+              <span class="stat-num" data-count="2">0</span>
+              <span class="stat-label" data-i18n="hs3">Platforms</span>
+            </div>
+          </div>
         </div>
 
         <!-- Terminal mockup -->
-        <div class="reveal">
-          <div class="terminal">
-            <div class="terminal-head">
-              <span class="dot bg-[#FF5F57]"></span>
-              <span class="dot bg-[#FEBC2E]"></span>
-              <span class="dot bg-[#28C840]"></span>
-              <span class="ml-3 font-mono text-xs text-slate-400">alx-zoro@workspace:~$</span>
+        <div class="reveal reveal-right" data-delay="200">
+          <div class="terminal-wrap">
+            <div class="float-chip chip-1">2044 addresses</div>
+            <div class="float-chip chip-2">6 devices found</div>
+            <div class="float-chip chip-3">MAC spoofed ✓</div>
+            <div class="terminal">
+              <div class="terminal-head">
+                <span class="dot bg-[#FF5F57]"></span>
+                <span class="dot bg-[#FEBC2E]"></span>
+                <span class="dot bg-[#28C840]"></span>
+                <span class="ml-3 font-mono text-xs text-slate-400">alx-zoro@workspace:~$</span>
+              </div>
+              <div class="terminal-body font-mono text-[13px] leading-relaxed" id="terminalLines">
+                <div class="t-line"><span class="t-cyan">$ whoami</span></div>
+                <div class="t-line"><span class="t-green">ALX-ZORO — technical & engineering solutions</span></div>
+                <div class="t-line"><span class="t-cyan">$ cat skills.txt</span></div>
+                <div class="t-line"><span class="t-green">python · networking · security · automation</span></div>
+                <div class="t-line"><span class="t-cyan">$ ./build wifi_auto --target all</span></div>
+                <div class="t-line"><span class="t-yellow">compiling self-contained toolkit ...</span></div>
+                <div class="t-line"><span class="t-green">OK — WiFi Auto v2.0 · MAC Changer Pro · updater</span></div>
+                <div class="t-line"><span class="t-cyan">$ _</span><span class="t-cursor">▊</span></div>
+                <div class="scanline"></div>
+              </div>
             </div>
-            <div class="terminal-body font-mono text-[13px] leading-relaxed" id="terminalLines">
-              <div class="t-line"><span class="t-cyan">$ whoami</span></div>
-              <div class="t-line"><span class="t-green">ALX-ZORO — technical & engineering solutions</span></div>
-              <div class="t-line"><span class="t-cyan">$ cat skills.txt</span></div>
-              <div class="t-line"><span class="t-green">python · networking · security · automation</span></div>
-              <div class="t-line"><span class="t-cyan">$ ./build wifi_auto --target all</span></div>
-              <div class="t-line"><span class="t-yellow">compiling self-contained toolkit ...</span></div>
-              <div class="t-line"><span class="t-green">OK — WiFi Auto v2.0 · MAC Changer Pro · updater</span></div>
-              <div class="t-line"><span class="t-cyan">$ _</span><span class="t-cursor">▊</span></div>
-            </div>
+            <div class="terminal-glow"></div>
           </div>
-          <div class="terminal-glow"></div>
         </div>
       </div>
     </section>
+
+    <!-- ======= MARQUEE ======= -->
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee-track">
+        <span>PYTHON</span><i>◆</i><span>NETWORKING</span><i>◆</i><span>SECURITY</span><i>◆</i><span>AUTOMATION</span><i>◆</i><span>LINUX</span><i>◆</i><span>MIKROTIK</span><i>◆</i><span>TKINTER</span><i>◆</i><span>WIFI AUTO</span><i>◆</i><span>MAC CHANGER</span><i>◆</i><span>UPDATER</span><i>◆</i><span>ZERO-DEPENDENCY</span><i>◆</i>
+        <span>PYTHON</span><i>◆</i><span>NETWORKING</span><i>◆</i><span>SECURITY</span><i>◆</i><span>AUTOMATION</span><i>◆</i><span>LINUX</span><i>◆</i><span>MIKROTIK</span><i>◆</i><span>TKINTER</span><i>◆</i><span>WIFI AUTO</span><i>◆</i><span>MAC CHANGER</span><i>◆</i><span>UPDATER</span><i>◆</i><span>ZERO-DEPENDENCY</span><i>◆</i>
+      </div>
+    </div>
 
     <!-- ======= ABOUT ======= -->
     <section id="about" class="relative py-24 border-y border-white/5 bg-[#0e1017]/60">
       <div class="max-w-7xl mx-auto px-5 lg:px-8">
         <div class="grid lg:grid-cols-5 gap-12 items-start">
-          <div class="lg:col-span-2 reveal">
+          <div class="lg:col-span-2 reveal reveal-left">
+            <div class="avatar-wrap reveal" data-delay="100">
+              <div class="avatar-ring"></div>
+              <img src="./avatar.png" alt="ALX-ZORO" class="avatar" loading="lazy" />
+              <span class="avatar-badge">@alx-zoro-304</span>
+            </div>
             <p class="section-tag" data-i18n="about_tag">About me</p>
             <h2 class="section-title" data-i18n="about_title">Hi, I'm ALX-ZORO</h2>
             <p class="mt-6 text-slate-300 leading-relaxed" data-i18n="about_d1">
@@ -144,22 +189,22 @@
           </div>
 
           <div class="lg:col-span-3 grid sm:grid-cols-2 gap-5">
-            <div class="card reveal">
+            <div class="card reveal" data-delay="0">
               <div class="card-icon">🐍</div>
               <h3 class="card-title" data-i18n="ab1_t">Python Development</h3>
               <p class="card-text" data-i18n="ab1_d">GUI tools, automation scripts, and network utilities — written to run anywhere with zero dependencies.</p>
             </div>
-            <div class="card reveal">
+            <div class="card reveal" data-delay="100">
               <div class="card-icon">🛡️</div>
               <h3 class="card-title" data-i18n="ab2_t">Cybersecurity</h3>
               <p class="card-text" data-i18n="ab2_d">Network analysis, device fingerprinting and low-level protocols — understanding systems from the packet up.</p>
             </div>
-            <div class="card reveal">
+            <div class="card reveal" data-delay="200">
               <div class="card-icon">⚙️</div>
               <h3 class="card-title" data-i18n="ab3_t">Engineering Solutions</h3>
               <p class="card-text" data-i18n="ab3_d">Real-world problems solved the hard way: driver quirks, registry-level changes, and tested-on-hardware reliability.</p>
             </div>
-            <div class="card reveal">
+            <div class="card reveal" data-delay="300">
               <div class="card-icon">🌐</div>
               <h3 class="card-title" data-i18n="ab4_t">Cross-Platform</h3>
               <p class="card-text" data-i18n="ab4_d">Every tool ships for Windows and Linux — one codebase, native implementations for each system.</p>
@@ -178,12 +223,36 @@
           <p class="section-sub" data-i18n="skills_sub">A few things I do every day — and the tools below are proof they work.</p>
         </div>
         <div class="mt-14 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          <div class="card reveal"><div class="card-icon">📡</div><h3 class="card-title" data-i18n="sk1_t">Networking</h3><p class="card-text" data-i18n="sk1_d">WiFi analysis, device discovery, ARP-level scanning, MAC manipulation and connectivity recovery.</p></div>
-          <div class="card reveal"><div class="card-icon">🖥️</div><h3 class="card-title" data-i18n="sk2_t">System Automation</h3><p class="card-text" data-i18n="sk2_d">Registry work, privilege elevation, PowerShell inline scripting and launcher engineering.</p></div>
-          <div class="card reveal"><div class="card-icon">🔐</div><h3 class="card-title" data-i18n="sk3_t">Security Analysis</h3><p class="card-text" data-i18n="sk3_d">Understanding traffic, device identity, and how drivers enforce (or block) hardware changes.</p></div>
-          <div class="card reveal"><div class="card-icon">🎨</div><h3 class="card-title" data-i18n="sk4_t">GUI Engineering</h3><p class="card-text" data-i18n="sk4_d">Dark-themed, responsive tkinter applications with live logs and clean workflows.</p></div>
-          <div class="card reveal"><div class="card-icon">📦</div><h3 class="card-title" data-i18n="sk5_t">Zero-Dependency</h3><p class="card-text" data-i18n="sk5_d">Self-contained tools that run from a single file — no installers, no bloat, no surprises.</p></div>
-          <div class="card reveal"><div class="card-icon">🚀</div><h3 class="card-title" data-i18n="sk6_t">Real-World Testing</h3><p class="card-text" data-i18n="sk6_d">Everything is tested on actual hardware (Realtek, Windows & Linux) before it ships.</p></div>
+          <div class="card reveal" data-delay="0">
+            <div class="card-icon">📡</div><h3 class="card-title" data-i18n="sk1_t">Networking</h3>
+            <p class="card-text" data-i18n="sk1_d">WiFi analysis, device discovery, ARP-level scanning, MAC manipulation and connectivity recovery.</p>
+            <div class="skill-bar"><span data-w="95%"></span></div>
+          </div>
+          <div class="card reveal" data-delay="80">
+            <div class="card-icon">🖥️</div><h3 class="card-title" data-i18n="sk2_t">System Automation</h3>
+            <p class="card-text" data-i18n="sk2_d">Registry work, privilege elevation, PowerShell inline scripting and launcher engineering.</p>
+            <div class="skill-bar"><span data-w="88%"></span></div>
+          </div>
+          <div class="card reveal" data-delay="160">
+            <div class="card-icon">🔐</div><h3 class="card-title" data-i18n="sk3_t">Security Analysis</h3>
+            <p class="card-text" data-i18n="sk3_d">Understanding traffic, device identity, and how drivers enforce (or block) hardware changes.</p>
+            <div class="skill-bar"><span data-w="85%"></span></div>
+          </div>
+          <div class="card reveal" data-delay="240">
+            <div class="card-icon">🎨</div><h3 class="card-title" data-i18n="sk4_t">GUI Engineering</h3>
+            <p class="card-text" data-i18n="sk4_d">Dark-themed, responsive tkinter applications with live logs and clean workflows.</p>
+            <div class="skill-bar"><span data-w="80%"></span></div>
+          </div>
+          <div class="card reveal" data-delay="320">
+            <div class="card-icon">📦</div><h3 class="card-title" data-i18n="sk5_t">Zero-Dependency</h3>
+            <p class="card-text" data-i18n="sk5_d">Self-contained tools that run from a single file — no installers, no bloat, no surprises.</p>
+            <div class="skill-bar"><span data-w="97%"></span></div>
+          </div>
+          <div class="card reveal" data-delay="400">
+            <div class="card-icon">🚀</div><h3 class="card-title" data-i18n="sk6_t">Real-World Testing</h3>
+            <p class="card-text" data-i18n="sk6_d">Everything is tested on actual hardware (Realtek, Windows & Linux) before it ships.</p>
+            <div class="skill-bar"><span data-w="90%"></span></div>
+          </div>
         </div>
       </div>
     </section>
@@ -205,7 +274,7 @@
             <span class="platform-line"></span>
           </div>
           <div class="grid md:grid-cols-2 gap-8">
-            <div class="tool-card reveal">
+            <div class="tool-card reveal" data-delay="0">
               <div class="flex items-center justify-between">
                 <div>
                   <h3 class="font-display text-2xl font-bold text-white">WiFi <span class="grad-text">Auto</span></h3>
@@ -227,7 +296,7 @@
                 <a href="#usage" class="btn btn-ghost btn-sm" data-i18n="tools_btn3">How to use</a>
               </div>
             </div>
-            <div class="tool-card reveal">
+            <div class="tool-card reveal" data-delay="100">
               <div class="flex items-center justify-between">
                 <div>
                   <h3 class="font-display text-2xl font-bold text-white">MAC <span class="grad-text">Changer Pro</span></h3>
@@ -260,7 +329,7 @@
             <span class="platform-line"></span>
           </div>
           <div class="grid md:grid-cols-2 gap-8">
-            <div class="tool-card reveal">
+            <div class="tool-card reveal" data-delay="0">
               <div class="flex items-center justify-between">
                 <div>
                   <h3 class="font-display text-2xl font-bold text-white">WiFi <span class="grad-text">Auto</span></h3>
@@ -283,7 +352,7 @@
                 <a href="#usage" class="btn btn-ghost btn-sm" data-i18n="tools_btn3">How to use</a>
               </div>
             </div>
-            <div class="tool-card reveal">
+            <div class="tool-card reveal" data-delay="100">
               <div class="flex items-center justify-between">
                 <div>
                   <h3 class="font-display text-2xl font-bold text-white">MAC <span class="grad-text">Changer Pro</span></h3>
@@ -306,7 +375,7 @@
                 <a href="#usage" class="btn btn-ghost btn-sm" data-i18n="tools_btn3">How to use</a>
               </div>
             </div>
-            <div class="tool-card reveal md:col-span-2">
+            <div class="tool-card reveal md:col-span-2" data-delay="0">
               <div class="flex items-center justify-between">
                 <div>
                   <h3 class="font-display text-2xl font-bold text-white">Mikrotik<span class="grad-text">Sploit</span></h3>
@@ -315,16 +384,22 @@
                 <span class="version-chip chip-green">Linux</span>
               </div>
               <p class="mt-5 text-slate-300 leading-relaxed max-w-3xl" data-i18n="tools_d5">
-                MikroTik security testing toolkit: vulnerability scanning, admin panel
-                access testing, login-card credential discovery, and a DoS stress module.
+                MikroTik security testing toolkit: tests all known MikroTik
+                vulnerabilities — vulnerability scanning, admin panel access
+                testing, login-card credential discovery, and a DoS stress module.
                 Ships inside the Linux package — run standalone or from the
                 MikrotikSploit tab inside WiFi Auto.
               </p>
+              <ul class="mt-5 space-y-2 text-sm text-slate-400">
+                <li class="flex gap-2"><span class="tick">✓</span><span data-i18n="tools_l13">Tests all known MikroTik vulnerabilities</span></li>
+                <li class="flex gap-2"><span class="tick">✓</span><span data-i18n="tools_l14">Admin panel + login-card testing</span></li>
+                <li class="flex gap-2"><span class="tick">✓</span><span data-i18n="tools_l15">DoS stress module included</span></li>
+              </ul>
               <div class="mt-6 flex flex-wrap gap-3">
                 <a href="#download" class="btn btn-ghost btn-sm" data-i18n="tools_btn4">Get the Linux package</a>
               </div>
             </div>
-            <div class="tool-card dashed reveal md:col-span-2">
+            <div class="tool-card dashed reveal md:col-span-2" data-delay="100">
               <div class="flex items-center justify-between">
                 <div>
                   <h3 class="font-display text-2xl font-bold text-slate-500" data-i18n="tools_c1">More coming soon</h3>
@@ -352,7 +427,7 @@
         </div>
 
         <div class="mt-14 grid lg:grid-cols-2 gap-8">
-          <div class="usage-card reveal">
+          <div class="usage-card reveal reveal-left" data-delay="0">
             <h3 class="flex items-center gap-3 font-display text-xl font-bold text-white">
               <span class="usage-ico">📡</span> WiFi Auto
             </h3>
@@ -377,7 +452,7 @@
             <p class="mt-6 text-sm text-slate-500" data-i18n="usage_note1">Requires Python 3.8+. Needs admin/root for MAC change and deep scan.</p>
           </div>
 
-          <div class="usage-card reveal">
+          <div class="usage-card reveal reveal-right" data-delay="150">
             <h3 class="flex items-center gap-3 font-display text-xl font-bold text-white">
               <span class="usage-ico">🖥️</span> MAC Changer Pro
             </h3>
@@ -405,7 +480,7 @@
         </div>
 
         <div class="mt-12 max-w-4xl mx-auto grid md:grid-cols-2 gap-6">
-          <div class="version-card reveal">
+          <div class="version-card reveal reveal-left" data-delay="0">
             <div class="flex items-center justify-between flex-wrap gap-3">
               <div>
                 <div class="flex items-center gap-3">
@@ -428,7 +503,7 @@
             </div>
           </div>
 
-          <div class="version-card reveal">
+          <div class="version-card reveal reveal-right" data-delay="150">
             <div class="flex items-center justify-between flex-wrap gap-3">
               <div>
                 <div class="flex items-center gap-3">
@@ -464,7 +539,7 @@
           <p class="section-tag" data-i18n="cl_tag">History</p>
           <h2 class="section-title" data-i18n="cl_title">Changelog</h2>
         </div>
-        <div id="changelogList" class="mt-12 space-y-6"></div>
+        <div id="changelogList" class="timeline mt-12 space-y-6"></div>
       </div>
     </section>
   </main>
@@ -482,6 +557,8 @@
       </div>
     </div>
   </footer>
+
+  <button id="backTop" class="back-top" aria-label="Back to top">↑</button>
 
   <script type="module" src="./src/main.js"></script>
 </body>

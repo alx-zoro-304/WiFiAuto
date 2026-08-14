@@ -15,6 +15,7 @@ const I18N = {
     hero_sub: 'I build self-contained Python tools that solve real technical and engineering problems — from network recovery to system automation. Every tool is portable, dependency-free, and tested the hard way.',
     hero_cta_1: 'Explore my tools', hero_cta_2: 'About me',
     hero_tick_1: 'Python engineering', hero_tick_2: 'Cybersecurity', hero_tick_3: 'Windows + Linux',
+    hs1: 'Tools shipped', hs2: 'Deep-scan addresses', hs3: 'Platforms',
     about_tag: 'About me', about_title: "Hi, I'm ALX-ZORO",
     about_d1: "I'm a developer who loves solving real problems with code. I build technical and engineering solutions using Python — tools that are self-contained, portable, and honest about what they do.",
     about_d2: 'I also have a deep interest in cybersecurity: network analysis, device identification, and building tools that understand how systems actually behave — tested on real hardware, the hard way.',
@@ -56,7 +57,10 @@ const I18N = {
     tools_l10: 'WiFi / Ethernet detection + drivers',
     tools_l11: 'Verified change + one-click restore',
     tools_l12: 'pkexec launcher included',
-    tools_d5: 'MikroTik security testing toolkit: vulnerability scanning, admin panel access testing, login-card credential discovery, and a DoS stress module. Ships inside the Linux package — run standalone or from the MikrotikSploit tab inside WiFi Auto.',
+    tools_d5: 'MikroTik security testing toolkit: tests all known MikroTik vulnerabilities — vulnerability scanning, admin panel access testing, login-card credential discovery, and a DoS stress module. Ships inside the Linux package — run standalone or from the MikrotikSploit tab inside WiFi Auto.',
+    tools_l13: 'Tests all known MikroTik vulnerabilities',
+    tools_l14: 'Admin panel + login-card testing',
+    tools_l15: 'DoS stress module included',
     tools_c1: 'More coming soon', tools_c2: 'New tools are in the works',
     tools_c3: 'This space is reserved for the next tool in the ALX-ZORO toolkit — watch this site, the tools update themselves automatically.',
     usage_tag: 'Quick start', usage_title: 'How to use',
@@ -102,6 +106,7 @@ const I18N = {
     hero_sub: 'أصنع أدوات بايثون مكتفية بذاتها تحل مشاكل تقنية وهندسية حقيقية — من استعادة الشبكات إلى أتمتة الأنظمة. كل أداة محمولة، بدون اعتماديات، ومجرّبة بالطريقة الصعبة.',
     hero_cta_1: 'استكشف أدواتي', hero_cta_2: 'عني',
     hero_tick_1: 'هندسة بايثون', hero_tick_2: 'أمن سيبراني', hero_tick_3: 'ويندوز + لينكس',
+    hs1: 'أدوات مُصدرة', hs2: 'عنوان فحص عميق', hs3: 'منصّات',
     about_tag: 'عني', about_title: 'أهلاً، أنا ALX-ZORO',
     about_d1: 'مطور يحب حل المشاكل الحقيقية بالكود. أصنع حلولاً تقنية وهندسية باستخدام بايثون — أدوات مكتفية بذاتها، محمولة، وصادقة فيما تفعله.',
     about_d2: 'ولدي اهتمام عميق بالأمن السيبراني: تحليل الشبكات، تحديد الأجهزة، وبناء أدوات تفهم كيف تتصرف الأنظمة فعلياً — مجرّبة على أجهزة حقيقية، بالطريقة الصعبة.',
@@ -143,7 +148,10 @@ const I18N = {
     tools_l10: 'كشف WiFi / Ethernet + التعريفات',
     tools_l11: 'تغيير مُتحقق + استعادة بنقرة واحدة',
     tools_l12: 'مشغل pkexec مضمّن',
-    tools_d5: 'حقيبة اختبار أمان ميكروتيك: فحص الثغرات، اختبار وصول لوحة الإدارة، اكتشاف بيانات بطاقات الدخول، ووحدة ضغط DoS. تأتي داخل حزمة اللينكس — تشغيل مستقل أو من تبويب MikrotikSploit داخل WiFi Auto.',
+    tools_d5: 'حقيبة اختبار أمان ميكروتيك: تختبر جميع ثغرات ميكروتيك المعروفة — فحص الثغرات، اختبار وصول لوحة الإدارة، اكتشاف بيانات بطاقات الدخول، ووحدة ضغط DoS. تأتي داخل حزمة اللينكس — تشغيل مستقل أو من تبويب MikrotikSploit داخل WiFi Auto.',
+    tools_l13: 'يختبر جميع ثغرات ميكروتيك المعروفة',
+    tools_l14: 'اختبار لوحة الإدارة وبطاقات الدخول',
+    tools_l15: 'وحدة ضغط DoS مضمّنة',
     tools_c1: 'قريباً المزيد', tools_c2: 'أدوات جديدة قيد التطوير',
     tools_c3: 'هذه المساحة محجوزة للأداة القادمة في حقيبة ALX-ZORO — تابع الموقع، الأدوات تحدّث نفسها تلقائياً.',
     usage_tag: 'بداية سريعة', usage_title: 'طريقة الاستخدام',
@@ -328,12 +336,99 @@ lines.forEach(([, txt, cls], i) => {
 })
 
 /* ---------- Scroll reveal ---------- */
+document.querySelectorAll('.reveal[data-delay], .reveal-left[data-delay], .reveal-right[data-delay], .reveal-zoom[data-delay]').forEach(el => {
+  el.style.transitionDelay = `${el.dataset.delay}ms`
+})
 const observer = new IntersectionObserver(entries => {
   entries.forEach(e => {
     if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target) }
   })
 }, { threshold: 0.12 })
-document.querySelectorAll('.reveal').forEach(el => observer.observe(el))
+document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-zoom').forEach(el => observer.observe(el))
+
+/* ---------- Scroll progress + back to top ---------- */
+const progressBar = document.getElementById('scrollProgress')
+const backTop = document.getElementById('backTop')
+window.addEventListener('scroll', () => {
+  const h = document.documentElement
+  const p = h.scrollTop / (h.scrollHeight - h.clientHeight)
+  progressBar.style.transform = `scaleX(${p})`
+  backTop.classList.toggle('show', h.scrollTop > 600)
+}, { passive: true })
+backTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }))
+
+/* ---------- Cursor glow ---------- */
+const glow = document.getElementById('cursorGlow')
+let gx = -999, gy = -999, tx = -999, ty = -999
+window.addEventListener('mousemove', e => {
+  tx = e.clientX
+  ty = e.clientY
+  glow.style.opacity = 1
+}, { passive: true })
+;(function glowLoop() {
+  gx += (tx - gx) * .12
+  gy += (ty - gy) * .12
+  glow.style.transform = `translate(${gx - 180}px, ${gy - 180}px)`
+  requestAnimationFrame(glowLoop)
+})()
+
+/* ---------- Hero title char split ---------- */
+document.querySelectorAll('.split-anim').forEach(el => {
+  const text = el.textContent
+  el.setAttribute('aria-label', text)
+  el.textContent = ''
+  ;[...text].forEach((ch, i) => {
+    const s = document.createElement('span')
+    s.className = 'char'
+    s.style.animationDelay = `${.25 + i * .045}s`
+    s.textContent = ch === ' ' ? '\u00A0' : ch
+    el.appendChild(s)
+  })
+})
+
+/* ---------- Count-up stats ---------- */
+const countObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return
+    countObs.unobserve(e.target)
+    const el = e.target
+    const target = +el.dataset.count
+    const dur = 1300
+    const t0 = performance.now()
+    ;(function tick(t) {
+      const p = Math.min((t - t0) / dur, 1)
+      el.textContent = Math.round(target * (1 - Math.pow(1 - p, 3)))
+      if (p < 1) requestAnimationFrame(tick)
+    })(t0)
+  })
+}, { threshold: .5 })
+document.querySelectorAll('.stat-num[data-count]').forEach(el => countObs.observe(el))
+
+/* ---------- Skill bars ---------- */
+const skillObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return
+    skillObs.unobserve(e.target)
+    const bar = e.target.querySelector('span')
+    if (bar) bar.style.width = bar.dataset.w
+  })
+}, { threshold: .4 })
+document.querySelectorAll('.skill-bar').forEach(el => skillObs.observe(el))
+
+/* ---------- Tool card tilt ---------- */
+document.querySelectorAll('.tool-card').forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const r = card.getBoundingClientRect()
+    const x = (e.clientX - r.left) / r.width - .5
+    const y = (e.clientY - r.top) / r.height - .5
+    card.style.transform = `perspective(900px) rotateY(${x * 5}deg) rotateX(${-y * 5}deg) translateY(-4px)`
+  })
+  card.addEventListener('mouseleave', () => {
+    card.style.transition = 'transform .5s ease'
+    card.style.transform = ''
+    setTimeout(() => { card.style.transition = '' }, 500)
+  })
+})
 
 /* ---------- Card mouse glow ---------- */
 document.querySelectorAll('.card').forEach(card => {
