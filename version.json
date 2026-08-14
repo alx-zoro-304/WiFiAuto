@@ -1,10 +1,10 @@
 {
   "app": "WiFi Auto",
-  "current_version": "2.0",
+  "current_version": "2.1",
   "mac_changer_version": "1.0",
   "developer": "ALX-ZORO",
   "homepage": "https://alx-zoro-304.github.io/WiFiAuto/",
-  "published": "2026-08-14",
+  "published": "2026-08-15",
   "downloads": {
     "zip": "downloads/WiFiAuto_v2.zip",
     "linux_tar": "downloads/WiFiAuto_v2-linux.tar.gz",
@@ -16,6 +16,18 @@
     "exe": "downloads/MAC-Address-Tool.exe"
   },
   "changelog": [
+    {
+      "version": "2.1",
+      "date": "2026-08-15",
+      "notes_en": [
+        "Windows package now matches Linux: built-in MikrotikSploit tab, subfolder-aware updater, updated README",
+        "Your tools will ask for your approval before updating"
+      ],
+      "notes_ar": [
+        "حزمة ويندوز أصبحت مطابقة للينكس: تبويب MikrotikSploit مدمج، محدّث يحافظ على المجلدات الفرعية، وREADME محدّث",
+        "أدواتك ستطلب موافقتك قبل أي تحديث"
+      ]
+    },
     {
       "version": "2.0",
       "date": "2026-08-14",

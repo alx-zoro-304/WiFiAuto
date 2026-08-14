@@ -5,7 +5,23 @@ OUT="$ROOT/public/downloads"
 mkdir -p "$OUT"
 
 # --- Windows package (tool/) ---
-cp "$ROOT"/tool/*.py "$ROOT"/tool/*.bat "$ROOT"/tool/*.exe "$ROOT"/tool/*.zip "$OUT/"
+rm -f "$OUT/WiFiAuto_v2.zip"
+python3 - "$ROOT/tool" "$OUT/WiFiAuto_v2.zip" <<'EOF'
+import zipfile, os, sys
+src, dst = sys.argv[1], sys.argv[2]
+skip = ("__pycache__", ".pyc", ".bak")
+with zipfile.ZipFile(dst, "w", zipfile.ZIP_DEFLATED) as z:
+    for root, dirs, files in os.walk(src):
+        dirs[:] = [d for d in dirs if d not in skip]
+        for f in files:
+            if f.endswith(skip[1]) or f.endswith(skip[2]):
+                continue
+            full = os.path.join(root, f)
+            rel = os.path.relpath(full, src)
+            z.write(full, rel.replace(os.sep, "/"))
+print("ZIP rebuilt:", dst)
+EOF
+cp "$ROOT"/tool/*.bat "$ROOT"/tool/*.exe "$OUT/"
 cp "$ROOT/tool/start.sh" "$OUT/"
 
 # --- Linux package (tool-linux/) ---
