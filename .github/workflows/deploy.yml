@@ -37,8 +37,13 @@ jobs:
             cp tool/*.py public/downloads/ 2>/dev/null || true
             cp tool/*.bat public/downloads/ 2>/dev/null || true
             cp tool/*.exe public/downloads/ 2>/dev/null || true
+            cp tool/start.sh public/downloads/ 2>/dev/null || true
             if command -v zip >/dev/null; then
               (cd tool && zip -r ../public/downloads/WiFiAuto_v2.zip . -x "*.pyc" "__pycache__/*") || true
+            fi
+            if command -v tar >/dev/null; then
+              (cd tool && tar -czf ../public/downloads/WiFiAuto_v2-linux.tar.gz wifi_auto_gui.py mac_changer_pro.py updater.py start.sh start.bat start_changer.bat) || \
+              (cd tool && tar -czf ../public/downloads/WiFiAuto_v2-linux.tar.gz wifi_auto_gui.py updater.py start.sh) || true
             fi
           fi
           cp version.json public/version.json

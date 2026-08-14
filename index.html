@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>WiFi Auto — By ALX-ZORO</title>
-  <meta name="description" content="WiFi Auto v2.0 — The ultimate network recovery toolkit by ALX-ZORO. Find open networks, deep-scan devices, and restore your internet automatically. Plus MAC Changer Pro." />
+  <title>ALX-ZORO — Technical & Engineering Solutions</title>
+  <meta name="description" content="ALX-ZORO — Python developer building technical and engineering solutions. Cybersecurity enthusiast. Creator of WiFi Auto and MAC Changer Pro." />
   <meta name="theme-color" content="#12141C" />
   <link rel="icon" type="image/png" href="./icon.png" />
   <link rel="manifest" href="./manifest.webmanifest" />
   <link rel="apple-touch-icon" href="./icon-192.png" />
-  <meta property="og:title" content="WiFi Auto — By ALX-ZORO" />
-  <meta property="og:description" content="The ultimate network recovery toolkit. Deep device scanning + smart MAC spoofing + internet auto-restore." />
+  <meta property="og:title" content="ALX-ZORO — Technical & Engineering Solutions" />
+  <meta property="og:description" content="Python developer · Cybersecurity enthusiast · Creator of WiFi Auto & MAC Changer Pro." />
   <meta property="og:type" content="website" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -21,26 +21,26 @@
   <header id="navbar" class="fixed top-0 inset-x-0 z-50 transition-all duration-300">
     <nav class="max-w-7xl mx-auto px-5 lg:px-8 flex items-center justify-between h-16">
       <a href="#top" class="flex items-center gap-3 group">
-        <img src="./icon.png" alt="WiFi Auto logo" class="w-9 h-9 rounded-lg shadow-glow transition-transform duration-300 group-hover:scale-110" />
+        <img src="./icon.png" alt="ALX-ZORO logo" class="w-9 h-9 rounded-lg shadow-glow transition-transform duration-300 group-hover:scale-110" />
         <span class="font-display font-bold text-lg tracking-wide text-white">
-          WiFi <span class="text-cyan-400">Auto</span>
+          ALX-<span class="text-cyan-400">ZORO</span>
         </span>
       </a>
 
       <ul class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
-        <li><a href="#features" class="nav-link" data-i18n="nav_features">Features</a></li>
-        <li><a href="#how" class="nav-link" data-i18n="nav_how">How it works</a></li>
+        <li><a href="#about" class="nav-link" data-i18n="nav_about">About</a></li>
+        <li><a href="#skills" class="nav-link" data-i18n="nav_skills">Skills</a></li>
         <li><a href="#tools" class="nav-link" data-i18n="nav_tools">Tools</a></li>
+        <li><a href="#usage" class="nav-link" data-i18n="nav_usage">How to use</a></li>
         <li><a href="#download" class="nav-link" data-i18n="nav_download">Download</a></li>
         <li><a href="#changelog" class="nav-link" data-i18n="nav_changelog">Changelog</a></li>
-        <li><a href="#about" class="nav-link" data-i18n="nav_about">About</a></li>
       </ul>
 
       <div class="flex items-center gap-3">
         <button id="langToggle" class="lang-btn" aria-label="Switch language">
           <span class="lang-en">AR</span><span class="lang-ar hidden">EN</span>
         </button>
-        <a href="#download" class="btn btn-accent btn-sm hidden sm:inline-flex" data-i18n="nav_cta">Get v2.0</a>
+        <a href="#download" class="btn btn-accent btn-sm hidden sm:inline-flex" data-i18n="nav_cta">Get my tools</a>
         <button id="menuBtn" class="md:hidden text-slate-200 p-2" aria-label="Menu">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
         </button>
@@ -48,19 +48,19 @@
     </nav>
     <div id="mobileMenu" class="hidden md:hidden bg-[#0e1017]/95 backdrop-blur-xl border-b border-white/5">
       <ul class="px-6 py-4 space-y-3 text-sm font-medium text-slate-300">
-        <li><a href="#features" class="mobile-link" data-i18n="nav_features">Features</a></li>
-        <li><a href="#how" class="mobile-link" data-i18n="nav_how">How it works</a></li>
+        <li><a href="#about" class="mobile-link" data-i18n="nav_about">About</a></li>
+        <li><a href="#skills" class="mobile-link" data-i18n="nav_skills">Skills</a></li>
         <li><a href="#tools" class="mobile-link" data-i18n="nav_tools">Tools</a></li>
+        <li><a href="#usage" class="mobile-link" data-i18n="nav_usage">How to use</a></li>
         <li><a href="#download" class="mobile-link" data-i18n="nav_download">Download</a></li>
         <li><a href="#changelog" class="mobile-link" data-i18n="nav_changelog">Changelog</a></li>
-        <li><a href="#about" class="mobile-link" data-i18n="nav_about">About</a></li>
       </ul>
     </div>
   </header>
 
   <main id="top">
     <!-- ======= HERO ======= -->
-    <section class="relative pt-32 pb-24 overflow-hidden">
+    <section class="relative pt-36 pb-24 overflow-hidden">
       <canvas id="particles" class="absolute inset-0 w-full h-full"></canvas>
       <div class="absolute inset-0 bg-grid"></div>
       <div class="absolute -top-40 -left-40 w-[500px] h-[500px] bg-cyan-500/10 rounded-full blur-3xl"></div>
@@ -70,25 +70,24 @@
         <div>
           <div class="hero-badge reveal">
             <span class="pulse-dot"></span>
-            <span data-i18n="hero_badge">WiFi Auto v2.0 — Released</span>
+            <span data-i18n="hero_badge">Python Developer · Cybersecurity Enthusiast</span>
           </div>
           <h1 class="mt-6 font-display text-4xl sm:text-5xl xl:text-6xl font-bold leading-tight text-white reveal">
-            <span data-i18n="hero_title_1">Never lose</span>
-            <span class="grad-text" data-i18n="hero_title_2">your internet</span><br />
-            <span data-i18n="hero_title_3">again.</span>
+            <span class="grad-text">ALX-ZORO</span><br />
+            <span class="typed-line"><span id="typedText"></span><span class="t-cursor">▊</span></span>
           </h1>
           <p class="mt-6 text-slate-400 text-lg leading-relaxed max-w-xl reveal" data-i18n="hero_sub">
-            WiFi Auto finds open networks, deep-scans every device, ranks their activity and
-            re-connects you automatically — all from one self-contained tool. Built by
-            <span class="text-cyan-400 font-semibold">ALX-ZORO</span>.
+            I build self-contained Python tools that solve real technical and
+            engineering problems — from network recovery to system automation.
+            Every tool is portable, dependency-free, and tested the hard way.
           </p>
           <div class="mt-8 flex flex-wrap gap-4 reveal">
-            <a href="#download" class="btn btn-accent btn-lg" data-i18n="hero_cta_1">Download for Windows</a>
-            <a href="#how" class="btn btn-ghost btn-lg" data-i18n="hero_cta_2">See how it works</a>
+            <a href="#tools" class="btn btn-accent btn-lg" data-i18n="hero_cta_1">Explore my tools</a>
+            <a href="#about" class="btn btn-ghost btn-lg" data-i18n="hero_cta_2">About me</a>
           </div>
           <div class="mt-8 flex flex-wrap gap-6 text-sm text-slate-400 reveal">
-            <span class="inline-flex items-center gap-2"><span class="tick">✓</span><span data-i18n="hero_tick_1">100% Self-contained</span></span>
-            <span class="inline-flex items-center gap-2"><span class="tick">✓</span><span data-i18n="hero_tick_2">No external tools</span></span>
+            <span class="inline-flex items-center gap-2"><span class="tick">✓</span><span data-i18n="hero_tick_1">Python engineering</span></span>
+            <span class="inline-flex items-center gap-2"><span class="tick">✓</span><span data-i18n="hero_tick_2">Cybersecurity</span></span>
             <span class="inline-flex items-center gap-2"><span class="tick">✓</span><span data-i18n="hero_tick_3">Windows + Linux</span></span>
           </div>
         </div>
@@ -100,16 +99,17 @@
               <span class="dot bg-[#FF5F57]"></span>
               <span class="dot bg-[#FEBC2E]"></span>
               <span class="dot bg-[#28C840]"></span>
-              <span class="ml-3 font-mono text-xs text-slate-400">wifi_auto_gui.py — report.txt</span>
+              <span class="ml-3 font-mono text-xs text-slate-400">alx-zoro@workspace:~$</span>
             </div>
             <div class="terminal-body font-mono text-[13px] leading-relaxed" id="terminalLines">
-              <div class="t-line"><span class="t-time">[12:03:03]</span> <span class="t-cyan">Scanning 1022 address(es) for up to 15s ...</span></div>
-              <div class="t-line"><span class="t-time">[12:03:17]</span> <span class="t-green">Deep scan pass 8: 7 device(s) so far</span></div>
-              <div class="t-line"><span class="t-time">[12:03:35]</span> <span class="t-yellow">Attempt: spoofing MAC 72:3d:9a:9f:05:90</span></div>
-              <div class="t-line"><span class="t-time">[12:04:39]</span> <span class="t-green">OK: Wi-Fi MAC changed to 72:3d:9a:9f:05:90</span></div>
-              <div class="t-line"><span class="t-time">[12:05:01]</span> <span class="t-cyan">Testing internet ...</span></div>
-              <div class="t-line"><span class="t-green">SUCCESS — internet works!</span></div>
-              <div class="t-cursor">▊</div>
+              <div class="t-line"><span class="t-cyan">$ whoami</span></div>
+              <div class="t-line"><span class="t-green">ALX-ZORO — technical & engineering solutions</span></div>
+              <div class="t-line"><span class="t-cyan">$ cat skills.txt</span></div>
+              <div class="t-line"><span class="t-green">python · networking · security · automation</span></div>
+              <div class="t-line"><span class="t-cyan">$ ./build wifi_auto --target all</span></div>
+              <div class="t-line"><span class="t-yellow">compiling self-contained toolkit ...</span></div>
+              <div class="t-line"><span class="t-green">OK — WiFi Auto v2.0 · MAC Changer Pro · updater</span></div>
+              <div class="t-line"><span class="t-cyan">$ _</span><span class="t-cursor">▊</span></div>
             </div>
           </div>
           <div class="terminal-glow"></div>
@@ -117,138 +117,195 @@
       </div>
     </section>
 
-    <!-- ======= STATS ======= -->
-    <section class="border-y border-white/5 bg-[#0e1017]/60">
-      <div class="max-w-7xl mx-auto px-5 lg:px-8 py-12 grid grid-cols-2 md:grid-cols-4 gap-8">
-        <div class="stat reveal"><span class="stat-num grad-text" data-count="2044">0</span><span class="stat-label" data-i18n="stat_1">addresses deep-scanned</span></div>
-        <div class="stat reveal"><span class="stat-num grad-text"><span data-count="15">0</span>s</span><span class="stat-label" data-i18n="stat_2">full-scan rounds</span></div>
-        <div class="stat reveal"><span class="stat-num grad-text">0<span class="text-cyan-400">B</span></span><span class="stat-label" data-i18n="stat_3">external dependencies</span></div>
-        <div class="stat reveal"><span class="stat-num grad-text" data-count="1">0</span><span class="stat-label" data-i18n="stat_4">click recovery</span></div>
+    <!-- ======= ABOUT ======= -->
+    <section id="about" class="relative py-24 border-y border-white/5 bg-[#0e1017]/60">
+      <div class="max-w-7xl mx-auto px-5 lg:px-8">
+        <div class="grid lg:grid-cols-5 gap-12 items-start">
+          <div class="lg:col-span-2 reveal">
+            <p class="section-tag" data-i18n="about_tag">About me</p>
+            <h2 class="section-title" data-i18n="about_title">Hi, I'm ALX-ZORO</h2>
+            <p class="mt-6 text-slate-300 leading-relaxed" data-i18n="about_d1">
+              I'm a developer who loves solving real problems with code. I build
+              technical and engineering solutions using Python — tools that are
+              self-contained, portable, and honest about what they do.
+            </p>
+            <p class="mt-4 text-slate-400 leading-relaxed" data-i18n="about_d2">
+              I also have a deep interest in cybersecurity: network analysis,
+              device identification, and building tools that understand how
+              systems actually behave — tested on real hardware, the hard way.
+            </p>
+            <div class="mt-8 flex flex-wrap gap-3">
+              <a href="https://github.com/ALX-ZORO" target="_blank" rel="noopener" class="btn btn-ghost btn-sm">
+                <svg class="w-4 h-4 inline -mt-0.5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.55v-2.15c-3.2.7-3.87-1.36-3.87-1.36-.52-1.33-1.28-1.68-1.28-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.19 1.76 1.19 1.03 1.75 2.69 1.25 3.34.95.1-.74.4-1.25.72-1.54-2.55-.29-5.23-1.28-5.23-5.68 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11.1 11.1 0 0 1 5.8 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.83 1.19 3.09 0 4.41-2.69 5.38-5.25 5.67.41.35.78 1.05.78 2.12v3.15c0 .3.2.66.8.55A11.5 11.5 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/></svg>
+                GitHub
+              </a>
+              <a href="#tools" class="btn btn-accent btn-sm" data-i18n="about_cta">See my tools</a>
+            </div>
+          </div>
+
+          <div class="lg:col-span-3 grid sm:grid-cols-2 gap-5">
+            <div class="card reveal">
+              <div class="card-icon">🐍</div>
+              <h3 class="card-title" data-i18n="ab1_t">Python Development</h3>
+              <p class="card-text" data-i18n="ab1_d">GUI tools, automation scripts, and network utilities — written to run anywhere with zero dependencies.</p>
+            </div>
+            <div class="card reveal">
+              <div class="card-icon">🛡️</div>
+              <h3 class="card-title" data-i18n="ab2_t">Cybersecurity</h3>
+              <p class="card-text" data-i18n="ab2_d">Network analysis, device fingerprinting and low-level protocols — understanding systems from the packet up.</p>
+            </div>
+            <div class="card reveal">
+              <div class="card-icon">⚙️</div>
+              <h3 class="card-title" data-i18n="ab3_t">Engineering Solutions</h3>
+              <p class="card-text" data-i18n="ab3_d">Real-world problems solved the hard way: driver quirks, registry-level changes, and tested-on-hardware reliability.</p>
+            </div>
+            <div class="card reveal">
+              <div class="card-icon">🌐</div>
+              <h3 class="card-title" data-i18n="ab4_t">Cross-Platform</h3>
+              <p class="card-text" data-i18n="ab4_d">Every tool ships for Windows and Linux — one codebase, native implementations for each system.</p>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
-    <!-- ======= FEATURES ======= -->
-    <section id="features" class="relative py-24">
+    <!-- ======= SKILLS ======= -->
+    <section id="skills" class="relative py-24">
       <div class="max-w-7xl mx-auto px-5 lg:px-8">
         <div class="text-center max-w-2xl mx-auto reveal">
-          <p class="section-tag" data-i18n="features_tag">Capabilities</p>
-          <h2 class="section-title" data-i18n="features_title">Engineered to do the impossible</h2>
-          <p class="section-sub" data-i18n="features_sub">Every feature runs inside one script — no installs, no dependencies, no external binaries.</p>
+          <p class="section-tag" data-i18n="skills_tag">What I do</p>
+          <h2 class="section-title" data-i18n="skills_title">Skills & focus areas</h2>
+          <p class="section-sub" data-i18n="skills_sub">A few things I do every day — and the tools below are proof they work.</p>
         </div>
-        <div class="mt-14 grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <div class="card reveal">
-            <div class="card-icon">📡</div>
-            <h3 class="card-title" data-i18n="f1_t">Open Network Finder</h3>
-            <p class="card-text" data-i18n="f1_d">Scans and lists every open (passwordless) WiFi network around you and connects with a single click.</p>
-          </div>
-          <div class="card reveal">
-            <div class="card-icon">🔍</div>
-            <h3 class="card-title" data-i18n="f2_t">Deep Device Scanner</h3>
-            <p class="card-text" data-i18n="f2_d">Sweeps 2044 addresses across /22 + /24 scopes in repeated 15-second rounds, merging every ARP sighting until even quiet devices appear.</p>
-          </div>
-          <div class="card reveal">
-            <div class="card-icon">⚡</div>
-            <h3 class="card-title" data-i18n="f3_t">Activity Sniffer & Ranking</h3>
-            <p class="card-text" data-i18n="f3_d">Ranks device traffic and always tries the busiest MAC first — smart order, not random guesses.</p>
-          </div>
-          <div class="card reveal">
-            <div class="card-icon">🛡️</div>
-            <h3 class="card-title" data-i18n="f4_t">Native MAC Spoofing</h3>
-            <p class="card-text" data-i18n="f4_d">Disable → registry write → enable, proven on Realtek 8821CE. If the driver reverts, the tool skips it instantly and moves on.</p>
-          </div>
-          <div class="card reveal">
-            <div class="card-icon">🌐</div>
-            <h3 class="card-title" data-i18n="f5_t">Auto Internet Recovery</h3>
-            <p class="card-text" data-i18n="f5_d">After every MAC change it tests real connectivity and repeats until the internet works — or you press Stop.</p>
-          </div>
-          <div class="card reveal">
-            <div class="card-icon">🧩</div>
-            <h3 class="card-title" data-i18n="f6_t">Self-Contained & Portable</h3>
-            <p class="card-text" data-i18n="f6_d">One file, zero dependencies. Native Python pings, inline PowerShell, no .exe helpers, no .ps1 scripts. Works on Windows & Linux.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ======= HOW IT WORKS ======= -->
-    <section id="how" class="relative py-24 bg-[#0e1017]/60 border-y border-white/5">
-      <div class="max-w-7xl mx-auto px-5 lg:px-8">
-        <div class="text-center max-w-2xl mx-auto reveal">
-          <p class="section-tag" data-i18n="how_tag">The flow</p>
-          <h2 class="section-title" data-i18n="how_title">How it works</h2>
-          <p class="section-sub" data-i18n="how_sub">Four stages. Zero supervision needed after you press Start.</p>
-        </div>
-        <div class="mt-14 grid md:grid-cols-4 gap-6">
-          <div class="step reveal">
-            <div class="step-num">01</div>
-            <h3 class="card-title" data-i18n="s1_t">Find & connect</h3>
-            <p class="card-text" data-i18n="s1_d">Scans open networks, you pick one, it connects instantly.</p>
-          </div>
-          <div class="step reveal">
-            <div class="step-num">02</div>
-            <h3 class="card-title" data-i18n="s2_t">Deep scan</h3>
-            <p class="card-text" data-i18n="s2_d">Sweeps thousands of addresses in rounds and collects every device MAC on the network.</p>
-          </div>
-          <div class="step reveal">
-            <div class="step-num">03</div>
-            <h3 class="card-title" data-i18n="s3_t">Sniff & rank</h3>
-            <p class="card-text" data-i18n="s3_d">Watches traffic 10 seconds and ranks which devices are most active.</p>
-          </div>
-          <div class="step reveal">
-            <div class="step-num">04</div>
-            <h3 class="card-title" data-i18n="s4_t">Spoof & verify</h3>
-            <p class="card-text" data-i18n="s4_d">Adopts the best scanned MAC, reconnects, tests the internet, repeats until success.</p>
-          </div>
+        <div class="mt-14 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div class="card reveal"><div class="card-icon">📡</div><h3 class="card-title" data-i18n="sk1_t">Networking</h3><p class="card-text" data-i18n="sk1_d">WiFi analysis, device discovery, ARP-level scanning, MAC manipulation and connectivity recovery.</p></div>
+          <div class="card reveal"><div class="card-icon">🖥️</div><h3 class="card-title" data-i18n="sk2_t">System Automation</h3><p class="card-text" data-i18n="sk2_d">Registry work, privilege elevation, PowerShell inline scripting and launcher engineering.</p></div>
+          <div class="card reveal"><div class="card-icon">🔐</div><h3 class="card-title" data-i18n="sk3_t">Security Analysis</h3><p class="card-text" data-i18n="sk3_d">Understanding traffic, device identity, and how drivers enforce (or block) hardware changes.</p></div>
+          <div class="card reveal"><div class="card-icon">🎨</div><h3 class="card-title" data-i18n="sk4_t">GUI Engineering</h3><p class="card-text" data-i18n="sk4_d">Dark-themed, responsive tkinter applications with live logs and clean workflows.</p></div>
+          <div class="card reveal"><div class="card-icon">📦</div><h3 class="card-title" data-i18n="sk5_t">Zero-Dependency</h3><p class="card-text" data-i18n="sk5_d">Self-contained tools that run from a single file — no installers, no bloat, no surprises.</p></div>
+          <div class="card reveal"><div class="card-icon">🚀</div><h3 class="card-title" data-i18n="sk6_t">Real-World Testing</h3><p class="card-text" data-i18n="sk6_d">Everything is tested on actual hardware (Realtek, Windows & Linux) before it ships.</p></div>
         </div>
       </div>
     </section>
 
     <!-- ======= TOOLS ======= -->
-    <section id="tools" class="relative py-24">
+    <section id="tools" class="relative py-24 bg-[#0e1017]/60 border-y border-white/5">
       <div class="max-w-7xl mx-auto px-5 lg:px-8">
         <div class="text-center max-w-2xl mx-auto reveal">
-          <p class="section-tag" data-i18n="tools_tag">The toolkit</p>
-          <h2 class="section-title" data-i18n="tools_title">Two tools, one developer</h2>
-          <p class="section-sub" data-i18n="tools_sub">Both fully self-contained, dark-themed, and battle-tested on Realtek hardware.</p>
+          <p class="section-tag" data-i18n="tools_tag">My tools</p>
+          <h2 class="section-title" data-i18n="tools_title">Tools I built</h2>
+          <p class="section-sub" data-i18n="tools_sub">Free, self-contained, and regularly updated — each with its own auto-updater.</p>
         </div>
         <div class="mt-14 grid md:grid-cols-2 gap-8">
           <div class="tool-card reveal">
             <div class="flex items-center justify-between">
               <div>
                 <h3 class="font-display text-2xl font-bold text-white">WiFi <span class="grad-text">Auto</span></h3>
-                <p class="text-slate-400 text-sm mt-1 font-mono">v2.0 · 1,490 lines · single file</p>
+                <p class="text-slate-400 text-sm mt-1 font-mono" data-i18n="tools_wa_ver">v2.0 · Windows + Linux · single file</p>
               </div>
               <span class="version-chip">v2.0</span>
             </div>
             <p class="mt-5 text-slate-300 leading-relaxed" data-i18n="tools_d1">
-              The main weapon: open-network finder, deep scanner, traffic sniffer,
-              MAC spoofing and automatic internet recovery — one click end-to-end.
+              Finds open networks, deep-scans every device, ranks their activity,
+              then recovers your internet automatically. One click, end to end.
             </p>
             <ul class="mt-5 space-y-2 text-sm text-slate-400">
-              <li class="flex gap-2"><span class="tick">✓</span><span data-i18n="tools_l1">Auto reconnect to open networks</span></li>
-              <li class="flex gap-2"><span class="tick">✓</span><span data-i18n="tools_l2">Full session log to report.txt</span></li>
-              <li class="flex gap-2"><span class="tick">✓</span><span data-i18n="tools_l3">Restore original MAC anytime</span></li>
+              <li class="flex gap-2"><span class="tick">✓</span><span data-i18n="tools_l1">Open network finder + auto connect</span></li>
+              <li class="flex gap-2"><span class="tick">✓</span><span data-i18n="tools_l2">Deep scan of 2044 addresses</span></li>
+              <li class="flex gap-2"><span class="tick">✓</span><span data-i18n="tools_l3">Smart MAC spoofing + internet test</span></li>
             </ul>
-            <a href="#download" class="btn btn-accent btn-sm mt-6" data-i18n="tools_btn1">Download WiFi Auto</a>
+            <div class="mt-6 flex flex-wrap gap-3">
+              <a href="#download" class="btn btn-accent btn-sm" data-i18n="tools_btn1">Download</a>
+              <a href="#usage" class="btn btn-ghost btn-sm" data-i18n="tools_btn3">How to use</a>
+            </div>
           </div>
           <div class="tool-card reveal">
             <div class="flex items-center justify-between">
               <div>
                 <h3 class="font-display text-2xl font-bold text-white">MAC <span class="grad-text">Changer Pro</span></h3>
-                <p class="text-slate-400 text-sm mt-1 font-mono">standalone · all adapters</p>
+                <p class="text-slate-400 text-sm mt-1 font-mono" data-i18n="tools_mc_ver">v1.0 · Windows · all adapters</p>
               </div>
               <span class="version-chip chip-green">Pro</span>
             </div>
             <p class="mt-5 text-slate-300 leading-relaxed" data-i18n="tools_d2">
-              Standalone MAC address changer that detects every adapter (WiFi + Ethernet),
-              changes via registry with driver verification, and explains failures clearly.
+              Standalone MAC address changer that detects every adapter, changes
+              via registry with driver verification, and explains failures clearly.
             </p>
             <ul class="mt-5 space-y-2 text-sm text-slate-400">
-              <li class="flex gap-2"><span class="tick">✓</span><span data-i18n="tools_l4">Detects all adapters with driver names</span></li>
-              <li class="flex gap-2"><span class="tick">✓</span><span data-i18n="tools_l5">Restore original MAC in one click</span></li>
-              <li class="flex gap-2"><span class="tick">✓</span><span data-i18n="tools_l6">Detailed failure diagnostics</span></li>
+              <li class="flex gap-2"><span class="tick">✓</span><span data-i18n="tools_l4">All adapters with driver names</span></li>
+              <li class="flex gap-2"><span class="tick">✓</span><span data-i18n="tools_l5">One-click restore original MAC</span></li>
+              <li class="flex gap-2"><span class="tick">✓</span><span data-i18n="tools_l6">Clear failure diagnostics</span></li>
             </ul>
-            <a href="#download" class="btn btn-ghost btn-sm mt-6" data-i18n="tools_btn2">Download MAC Changer</a>
+            <div class="mt-6 flex flex-wrap gap-3">
+              <a href="#download" class="btn btn-ghost btn-sm" data-i18n="tools_btn2">Download</a>
+              <a href="#usage" class="btn btn-ghost btn-sm" data-i18n="tools_btn3">How to use</a>
+            </div>
+          </div>
+          <div class="tool-card dashed reveal">
+            <div class="flex items-center justify-between">
+              <div>
+                <h3 class="font-display text-2xl font-bold text-slate-500" data-i18n="tools_c1">More coming soon</h3>
+                <p class="text-slate-500 text-sm mt-1" data-i18n="tools_c2">New tools are in the works</p>
+              </div>
+              <span class="version-chip">soon</span>
+            </div>
+            <p class="mt-5 text-slate-500 leading-relaxed" data-i18n="tools_c3">
+              This space is reserved for the next tool in the ALX-ZORO toolkit —
+              watch this site, the tools update themselves automatically.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======= USAGE (compact) ======= -->
+    <section id="usage" class="relative py-24">
+      <div class="max-w-7xl mx-auto px-5 lg:px-8">
+        <div class="text-center max-w-2xl mx-auto reveal">
+          <p class="section-tag" data-i18n="usage_tag">Quick start</p>
+          <h2 class="section-title" data-i18n="usage_title">How to use</h2>
+          <p class="section-sub" data-i18n="usage_sub">Both tools run in under a minute. Here's the whole guide — compact.</p>
+        </div>
+
+        <div class="mt-14 grid lg:grid-cols-2 gap-8">
+          <div class="usage-card reveal">
+            <h3 class="flex items-center gap-3 font-display text-xl font-bold text-white">
+              <span class="usage-ico">📡</span> WiFi Auto
+            </h3>
+            <div class="mt-6 grid sm:grid-cols-2 gap-6">
+              <div>
+                <p class="usage-os text-cyan-400" data-i18n="usage_win">Windows</p>
+                <ol class="usage-ol">
+                  <li data-i18n="uw1">Run <code>start.bat</code> (UAC opens → Yes)</li>
+                  <li data-i18n="uw2">Pick an open network → press Start</li>
+                  <li data-i18n="uw3">Done — internet works automatically</li>
+                </ol>
+              </div>
+              <div>
+                <p class="usage-os text-green-400" data-i18n="usage_linux">Linux</p>
+                <ol class="usage-ol">
+                  <li data-i18n="ul1">Run <code>./start.sh</code> (asks sudo)</li>
+                  <li data-i18n="ul2">Pick an open network → press Start</li>
+                  <li data-i18n="ul3">Done — internet works automatically</li>
+                </ol>
+              </div>
+            </div>
+            <p class="mt-6 text-sm text-slate-500" data-i18n="usage_note1">Requires Python 3.8+. Needs admin/root for MAC change and deep scan.</p>
+          </div>
+
+          <div class="usage-card reveal">
+            <h3 class="flex items-center gap-3 font-display text-xl font-bold text-white">
+              <span class="usage-ico">🖥️</span> MAC Changer Pro
+            </h3>
+            <div class="mt-6">
+              <p class="usage-os text-cyan-400" data-i18n="usage_win2">Windows only</p>
+              <ol class="usage-ol">
+                <li data-i18n="um1">Run <code>start_changer.bat</code> (UAC opens → Yes)</li>
+                <li data-i18n="um2">Select your adapter → enter a MAC</li>
+                <li data-i18n="um3">Press Apply — or Restore to go back</li>
+              </ol>
+            </div>
+            <p class="mt-6 text-sm text-slate-500" data-i18n="usage_note2">If a driver rejects the change, the tool tells you exactly why and what to try.</p>
           </div>
         </div>
       </div>
@@ -260,34 +317,49 @@
         <div class="text-center max-w-2xl mx-auto reveal">
           <p class="section-tag" data-i18n="dl_tag">Get it now</p>
           <h2 class="section-title" data-i18n="dl_title">Download</h2>
-          <p class="section-sub" data-i18n="dl_sub">Always free. Updates are announced here — and your installed tool checks this page automatically.</p>
+          <p class="section-sub" data-i18n="dl_sub">Always free. Your installed tools check this page automatically for updates.</p>
         </div>
 
-        <div class="mt-12 max-w-3xl mx-auto reveal">
-          <div id="versionCard" class="version-card">
-            <div class="flex items-center justify-between flex-wrap gap-4">
+        <div class="mt-12 max-w-4xl mx-auto grid md:grid-cols-2 gap-6">
+          <div class="version-card reveal">
+            <div class="flex items-center justify-between flex-wrap gap-3">
               <div>
                 <div class="flex items-center gap-3">
-                  <span class="version-chip">v<span id="vNum">2.0</span></span>
-                  <span class="text-sm text-slate-400" data-i18n="dl_latest">Latest release</span>
+                  <span class="version-chip">WiFi Auto v<span id="vNum">2.0</span></span>
                 </div>
-                <p id="vDate" class="mt-2 text-sm text-slate-500 font-mono">2026-08-14</p>
+                <p class="mt-2 text-xs text-slate-500 font-mono" id="vDate">2026-08-14</p>
               </div>
               <div class="flex items-center gap-2 text-sm" id="vStatus">
                 <span class="pulse-dot"></span>
-                <span class="text-slate-400" data-i18n="dl_checking">Checking for updates...</span>
+                <span class="text-slate-400" data-i18n="dl_checking">Checking...</span>
               </div>
             </div>
-            <div class="mt-6 flex flex-wrap gap-3">
-              <a id="dlZip" href="./downloads/WiFiAuto_v2.zip" class="btn btn-accent" download data-i18n="dl_zip">Download full package (ZIP)</a>
-              <a id="dlPy" href="./downloads/wifi_auto_gui.py" class="btn btn-ghost" download data-i18n="dl_py">wifi_auto_gui.py</a>
-              <a id="dlMc" href="./downloads/mac_changer_pro.py" class="btn btn-ghost" download data-i18n="dl_mc">mac_changer_pro.py</a>
-              <a id="dlExe" href="./downloads/MAC-Address-Tool.exe" class="btn btn-ghost" download data-i18n="dl_exe">MAC-Address-Tool.exe</a>
+            <p class="mt-4 text-sm text-slate-400" data-i18n="dl_wa_platform">Windows + Linux</p>
+            <div class="mt-4 grid gap-2">
+              <a id="dlZip" href="./downloads/WiFiAuto_v2.zip" class="btn btn-accent btn-sm justify-start" download data-i18n="dl_zip">Windows — full package (ZIP)</a>
+              <a id="dlTar" href="./downloads/WiFiAuto_v2-linux.tar.gz" class="btn btn-ghost btn-sm justify-start" download data-i18n="dl_tar">Linux — full package (TAR.GZ)</a>
+              <a id="dlPy" href="./downloads/wifi_auto_gui.py" class="btn btn-ghost btn-sm justify-start" download data-i18n="dl_py">Both — wifi_auto_gui.py (raw)</a>
             </div>
-            <div class="mt-6 pt-4 border-t border-white/5 flex items-center gap-3 text-sm text-slate-400">
-              <span class="text-lg">💡</span>
-              <span data-i18n="dl_note">Need Python 3.8+ on your machine. Run <code class="font-mono text-cyan-400">start.bat</code> as Administrator — the launcher handles privileges for you.</span>
+          </div>
+
+          <div class="version-card reveal">
+            <div class="flex items-center justify-between flex-wrap gap-3">
+              <div>
+                <span class="version-chip chip-green">MAC Changer Pro v<span id="vNumMc">1.0</span></span>
+              </div>
             </div>
+            <p class="mt-4 text-sm text-slate-400" data-i18n="dl_mc_platform">Windows only</p>
+            <div class="mt-4 grid gap-2">
+              <a id="dlMc" href="./downloads/mac_changer_pro.py" class="btn btn-accent btn-sm justify-start" download data-i18n="dl_mc">Download mac_changer_pro.py</a>
+              <a id="dlExe" href="./downloads/MAC-Address-Tool.exe" class="btn btn-ghost btn-sm justify-start" download data-i18n="dl_exe">MAC-Address-Tool.exe</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-8 max-w-4xl mx-auto reveal">
+          <div class="flex items-center gap-3 text-sm text-slate-400 justify-center">
+            <span class="text-lg">💡</span>
+            <span data-i18n="dl_note">All packages include <code class="font-mono text-cyan-400">updater.py</code> — the auto-update system. Backups are created before every update.</span>
           </div>
         </div>
       </div>
@@ -300,45 +372,7 @@
           <p class="section-tag" data-i18n="cl_tag">History</p>
           <h2 class="section-title" data-i18n="cl_title">Changelog</h2>
         </div>
-        <div id="changelogList" class="mt-12 space-y-6">
-          <div class="changelog-item reveal">
-            <div class="flex items-center gap-3">
-              <span class="version-chip">v2.0</span>
-              <span class="text-slate-500 text-sm font-mono">2026-08-14</span>
-            </div>
-            <ul class="mt-4 space-y-2 text-slate-300 text-sm" data-i18n="cl_v20">
-              <li class="flex gap-2"><span class="tick">✓</span> Complete rewrite — single-file, self-contained engine</li>
-              <li class="flex gap-2"><span class="tick">✓</span> Deep scan: 2044 addresses, repeated rounds, merged results</li>
-              <li class="flex gap-2"><span class="tick">✓</span> Native MAC change via registry (disable → write → enable)</li>
-              <li class="flex gap-2"><span class="tick">✓</span> Traffic ranking + smart MAC attempt order</li>
-              <li class="flex gap-2"><span class="tick">✓</span> Built-in updater — checks this site automatically</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ======= ABOUT ======= -->
-    <section id="about" class="relative py-24 bg-[#0e1017]/60 border-y border-white/5">
-      <div class="max-w-3xl mx-auto px-5 lg:px-8 text-center">
-        <p class="section-tag reveal" data-i18n="about_tag">Developer</p>
-        <h2 class="section-title reveal" data-i18n="about_title">Built by ALX-ZORO</h2>
-        <div class="mt-10 reveal">
-          <img src="./icon.png" alt="ALX-ZORO" class="w-20 h-20 mx-auto rounded-2xl shadow-glow" />
-          <h3 class="mt-5 font-display text-2xl font-bold text-white">ALX-ZORO</h3>
-          <p class="mt-4 text-slate-400 leading-relaxed max-w-xl mx-auto" data-i18n="about_d">
-            Developer of self-contained network tools that solve real everyday problems.
-            Every tool is written to be portable, dependency-free and honest about what it does.
-            WiFi Auto and MAC Changer Pro are tested on real Realtek hardware — the hard way.
-          </p>
-          <div class="mt-8 flex justify-center gap-4">
-            <a href="https://github.com/ALX-ZORO" target="_blank" rel="noopener" class="btn btn-ghost btn-sm">
-              <svg class="w-4 h-4 inline -mt-0.5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.55v-2.15c-3.2.7-3.87-1.36-3.87-1.36-.52-1.33-1.28-1.68-1.28-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.19 1.76 1.19 1.03 1.75 2.69 1.25 3.34.95.1-.74.4-1.25.72-1.54-2.55-.29-5.23-1.28-5.23-5.68 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11.1 11.1 0 0 1 5.8 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.83 1.19 3.09 0 4.41-2.69 5.38-5.25 5.67.41.35.78 1.05.78 2.12v3.15c0 .3.2.66.8.55A11.5 11.5 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/></svg>
-              GitHub
-            </a>
-            <a href="#download" class="btn btn-accent btn-sm" data-i18n="about_cta">Get the tools</a>
-          </div>
-        </div>
+        <div id="changelogList" class="mt-12 space-y-6"></div>
       </div>
     </section>
   </main>
@@ -347,8 +381,8 @@
   <footer class="border-t border-white/5 py-10">
     <div class="max-w-7xl mx-auto px-5 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-4">
       <div class="flex items-center gap-3">
-        <img src="./icon.png" alt="WiFi Auto" class="w-7 h-7 rounded-md" />
-        <span class="text-sm text-slate-400">WiFi Auto v2.0 — By <span class="text-cyan-400 font-semibold">ALX-ZORO</span></span>
+        <img src="./icon.png" alt="ALX-ZORO" class="w-7 h-7 rounded-md" />
+        <span class="text-sm text-slate-400">ALX-ZORO — <span class="text-cyan-400 font-semibold">Technical & Engineering Solutions</span></span>
       </div>
       <div class="flex items-center gap-5 text-sm text-slate-500">
         <span id="footerVer" class="font-mono">version.json · live</span>

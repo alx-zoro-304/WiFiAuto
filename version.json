@@ -7,6 +7,7 @@
   "published": "2026-08-14",
   "downloads": {
     "zip": "downloads/WiFiAuto_v2.zip",
+    "linux_tar": "downloads/WiFiAuto_v2-linux.tar.gz",
     "wifi_auto_gui_py": "downloads/wifi_auto_gui.py",
     "mac_changer_pro_py": "downloads/mac_changer_pro.py",
     "exe": "downloads/MAC-Address-Tool.exe"

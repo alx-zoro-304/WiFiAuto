@@ -15,6 +15,7 @@ import os
 import shutil
 import ssl
 import sys
+import tarfile
 import tempfile
 import threading
 import urllib.request
@@ -23,6 +24,8 @@ import zipfile
 UPDATE_URL = "https://alx-zoro.github.io/WiFiAuto/version.json"
 DOWNLOAD_BASE = "https://alx-zoro.github.io/WiFiAuto/"
 USER_AGENT = "WiFiAuto-Updater/2.0"
+
+IS_WINDOWS = sys.platform.startswith("win")
 
 
 def _safe_print(msg):
@@ -70,38 +73,63 @@ def _http_get(url, timeout=30):
 
 
 def install_update(script_dir, info, log=_safe_print):
-    """Download the new package zip and install it next to the running
-    script. Existing files are backed up as <name>.bak.
-    Returns True on success."""
-    zip_url = DOWNLOAD_BASE + info.get("downloads", {}).get(
-        "zip", "downloads/WiFiAuto_v2.zip")
-    log(f"[updater] Downloading {zip_url} ...")
-    data = _http_get(zip_url)
+    """Download the new package (ZIP on Windows, TAR.GZ on Linux) and
+    install it next to the running script. Existing files are backed up
+    as <name>.bak. Returns True on success."""
+    downloads = info.get("downloads", {})
+    if IS_WINDOWS:
+        pkg = downloads.get("zip", "downloads/WiFiAuto_v2.zip")
+        archive_type = "zip"
+    else:
+        pkg = downloads.get("linux_tar",
+                            "downloads/WiFiAuto_v2-linux.tar.gz")
+        archive_type = "tar"
+    pkg_url = DOWNLOAD_BASE + pkg
+    log(f"[updater] Downloading {pkg_url} ...")
+    data = _http_get(pkg_url)
     tmp = None
     try:
-        fd, tmp = tempfile.mkstemp(suffix=".zip")
+        fd, tmp = tempfile.mkstemp(suffix=".pkg")
         os.close(fd)
         with open(tmp, "wb") as f:
             f.write(data)
-        with zipfile.ZipFile(tmp) as z:
-            for name in z.namelist():
-                base = os.path.basename(name)
-                if (not base or name.endswith("/")
-                        or "__pycache__" in name or name.endswith(".pyc")):
-                    continue
-                dest = os.path.join(script_dir, base)
-                if os.path.exists(dest):
-                    bak = dest + ".bak"
-                    try:
-                        if os.path.exists(bak):
-                            os.remove(bak)
-                        shutil.copy2(dest, bak)
-                        log(f"[updater] Backup: {base} -> {base}.bak")
-                    except OSError:
-                        pass
-                with z.open(name) as src, open(dest, "wb") as out:
-                    shutil.copyfileobj(src, out)
-                log(f"[updater] Installed: {base}")
+
+        def extract(name, dest):
+            if archive_type == "zip":
+                with zipfile.ZipFile(tmp) as z:
+                    with z.open(name) as src, open(dest, "wb") as out:
+                        shutil.copyfileobj(src, out)
+            else:
+                with tarfile.open(tmp, "r:gz") as t:
+                    src = t.extractfile(name)
+                    with open(dest, "wb") as out:
+                        shutil.copyfileobj(src, out)
+
+        names = []
+        if archive_type == "zip":
+            with zipfile.ZipFile(tmp) as z:
+                names = z.namelist()
+        else:
+            with tarfile.open(tmp, "r:gz") as t:
+                names = t.getnames()
+
+        for name in names:
+            base = os.path.basename(name)
+            if (not base or name.endswith("/")
+                    or "__pycache__" in name or name.endswith(".pyc")):
+                continue
+            dest = os.path.join(script_dir, base)
+            if os.path.exists(dest):
+                bak = dest + ".bak"
+                try:
+                    if os.path.exists(bak):
+                        os.remove(bak)
+                    shutil.copy2(dest, bak)
+                    log(f"[updater] Backup: {base} -> {base}.bak")
+                except OSError:
+                    pass
+            extract(name, dest)
+            log(f"[updater] Installed: {base}")
         return True
     finally:
         if tmp:
