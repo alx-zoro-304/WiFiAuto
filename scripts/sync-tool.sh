@@ -18,17 +18,20 @@ with zipfile.ZipFile(dst, "w", zipfile.ZIP_DEFLATED) as z:
                 continue
             full = os.path.join(root, f)
             rel = os.path.relpath(full, src)
-            z.write(full, rel.replace(os.sep, "/"))
+            z.write(full, "WiFiAuto_v2/" + rel.replace(os.sep, "/"))
 print("ZIP rebuilt:", dst)
 EOF
 cp "$ROOT"/tool/*.bat "$ROOT"/tool/*.exe "$OUT/"
 cp "$ROOT/tool/start.sh" "$OUT/"
+cp "$ROOT/tool/wifi_auto_gui.py" "$OUT/wifi_auto_gui.py"
+cp "$ROOT/tool/mac_changer_pro.py" "$OUT/mac_changer_pro.py"
 
 # --- Linux package (tool-linux/) ---
 rm -f "$OUT/WiFiAuto_v2-linux.tar.gz"
 tar -czf "$OUT/WiFiAuto_v2-linux.tar.gz" \
     --exclude="__pycache__" --exclude="*.pyc" --exclude="*.bak" \
-    -C "$ROOT/tool-linux" wifi_auto_gui.py mac_changer_pro.py updater.py \
+    -C "$ROOT/tool-linux" --transform 's,^,WiFiAuto_v2-linux/,' \
+    wifi_auto_gui.py mac_changer_pro.py updater.py \
     start_wifi_auto.sh start_changer.sh "WiFi Auto.desktop" \
     "MAC Changer.desktop" README.txt MikrotikSploit
 cp "$ROOT/tool-linux/wifi_auto_gui.py" "$OUT/wifi_auto_gui_linux.py"

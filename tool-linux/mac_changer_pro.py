@@ -23,7 +23,7 @@ from updater import start_update_check
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 APP_TITLE = "MAC Changer Pro"
-APP_VERSION = "2.2"
+APP_VERSION = "2.3"
 IS_ROOT = os.geteuid() == 0
 
 
