@@ -23,7 +23,7 @@ from updater import start_update_check
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 APP_TITLE = "MAC Changer Pro"
-APP_VERSION = "1.0"
+APP_VERSION = "2.2"
 IS_ROOT = os.geteuid() == 0
 
 
@@ -122,7 +122,7 @@ def change_mac_native(iface, mac_str, log):
 class MACChangerApp:
     def __init__(self, root):
         self.root = root
-        self.root.title("MAC Changer Pro")
+        self.root.title(f"MAC Changer Pro v{APP_VERSION}")
         self.root.geometry("680x520")
         self.root.minsize(600, 420)
 
@@ -164,6 +164,10 @@ class MACChangerApp:
         ttk.Label(self.root, textvariable=self.status_var,
                   anchor=tk.W).pack(fill=tk.X, padx=8)
 
+        self.ver_lbl = ttk.Label(self.root, text=f"{APP_TITLE} v{APP_VERSION}",
+                                 anchor=tk.E, foreground="#555555")
+        self.ver_lbl.pack(fill=tk.X, padx=8)
+
         logfrm = ttk.LabelFrame(self.root, text="Log", padding=pad)
         logfrm.pack(fill=tk.BOTH, expand=True, padx=pad, pady=pad)
         self.log_text = tk.Text(logfrm, height=12, state=tk.DISABLED)
@@ -183,7 +187,19 @@ class MACChangerApp:
         start_update_check(
             self.root, SCRIPT_DIR, APP_VERSION, APP_TITLE,
             version_field="mac_changer_version",
-            log=self.log)
+            log=self.log,
+            on_version=self._apply_remote_version)
+
+    def _apply_remote_version(self, ver):
+        """Version comes from the site — sync every place that shows it."""
+        global APP_VERSION
+        APP_VERSION = str(ver)
+        try:
+            self.root.title(f"{APP_TITLE} v{APP_VERSION}")
+            if getattr(self, "ver_lbl", None) is not None:
+                self.ver_lbl.config(text=f"{APP_TITLE} v{APP_VERSION}")
+        except Exception:
+            pass
 
     def _fill_combo(self):
         names = [f"{a['name']}  [{a['desc']}]" for a in self.adapters]

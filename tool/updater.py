@@ -2,10 +2,13 @@
 """
 updater.py — WiFi Auto official updater (by ALX-ZORO).
 
-Checks the official site (version.json) for new releases. If a newer
-version exists the user is ASKED before anything is downloaded. On
-approval the new package is downloaded and installed next to this
-script; every replaced file is first backed up as <name>.bak.
+Checks the official site (version.json) for new releases. The version
+number shown by the tools comes from the site, not from inside the
+scripts. If a newer version exists the user is ASKED before anything is
+downloaded — and only once per version. On approval the new package is
+downloaded and installed in place: every replaced file is backed up as
+a single <name>.bak, and files from the previous package that no longer
+exist in the new one are deleted (clean replace, no leftovers).
 
 100% standard library — cross-platform (Windows & Linux).
 """
@@ -23,9 +26,11 @@ import zipfile
 
 UPDATE_URL = "https://alx-zoro-304.github.io/WiFiAuto/version.json"
 DOWNLOAD_BASE = "https://alx-zoro-304.github.io/WiFiAuto/"
-USER_AGENT = "WiFiAuto-Updater/2.0"
+USER_AGENT = "WiFiAuto-Updater/2.2"
 
 IS_WINDOWS = sys.platform.startswith("win")
+
+STATE_FILE = ".updater_state.json"
 
 
 def _safe_print(msg):
@@ -35,6 +40,34 @@ def _safe_print(msg):
         pass
 
 
+# ---------------------------------------------------------------------------
+# Persistent state — keeps the tool in sync with the site's version.
+# ---------------------------------------------------------------------------
+def _state_path(script_dir):
+    return os.path.join(script_dir, STATE_FILE)
+
+
+def load_state(script_dir):
+    try:
+        with open(_state_path(script_dir), "r", encoding="utf-8") as f:
+            return json.load(f)
+    except Exception:
+        return {}
+
+
+def save_state(script_dir, **fields):
+    try:
+        state = load_state(script_dir)
+        state.update(fields)
+        with open(_state_path(script_dir), "w", encoding="utf-8") as f:
+            json.dump(state, f, ensure_ascii=False, indent=2)
+    except OSError:
+        pass
+
+
+# ---------------------------------------------------------------------------
+# Networking
+# ---------------------------------------------------------------------------
 def fetch_version_info(timeout=8):
     """Fetch + parse version.json from the official site.
     Returns a dict or None on any failure (offline / site down)."""
@@ -72,10 +105,14 @@ def _http_get(url, timeout=30):
         return r.read()
 
 
+# ---------------------------------------------------------------------------
+# Install — clean in-place replace
+# ---------------------------------------------------------------------------
 def install_update(script_dir, info, log=_safe_print):
     """Download the new package (ZIP on Windows, TAR.GZ on Linux) and
-    install it next to the running script. Existing files are backed up
-    as <name>.bak. Returns True on success."""
+    install it next to the running script. Every replaced file gets a
+    single <name>.bak; files from the previous package that are not in
+    the new package are deleted. Returns True on success."""
     downloads = info.get("downloads", {})
     if IS_WINDOWS:
         pkg = downloads.get("zip", "downloads/WiFiAuto_v2.zip")
@@ -116,13 +153,32 @@ def install_update(script_dir, info, log=_safe_print):
             with tarfile.open(tmp, "r:gz") as t:
                 names = t.getnames()
 
+        keep = set()
         for name in names:
             if (name.endswith("/") or "__pycache__" in name
                     or name.endswith(".pyc") or ".." in name.split("/")):
                 continue
-            base = os.path.basename(name)
-            if not base:
+            if not os.path.basename(name):
                 continue
+            keep.add(name)
+
+        # Clean replace: remove files installed by the previous package
+        # that are no longer part of the new package (no leftovers).
+        state = load_state(script_dir)
+        for old in state.get("installed_files", []):
+            if old in keep:
+                continue
+            if "__pycache__" in old or old.endswith(".pyc"):
+                continue
+            stale = os.path.join(script_dir, old)
+            if os.path.isfile(stale):
+                try:
+                    os.remove(stale)
+                    log(f"[updater] Removed obsolete: {old}")
+                except OSError:
+                    pass
+
+        for name in keep:
             dest = os.path.join(script_dir, name)
             os.makedirs(os.path.dirname(dest), exist_ok=True)
             if os.path.exists(dest):
@@ -136,6 +192,8 @@ def install_update(script_dir, info, log=_safe_print):
                     pass
             extract(name, dest)
             log(f"[updater] Installed: {name}")
+
+        save_state(script_dir, installed_files=sorted(keep))
         return True
     finally:
         if tmp:
@@ -145,15 +203,27 @@ def install_update(script_dir, info, log=_safe_print):
                 pass
 
 
+# ---------------------------------------------------------------------------
+# Entry point — non-blocking check for tkinter apps
+# ---------------------------------------------------------------------------
 def start_update_check(root, script_dir, current_version, app_title="WiFi Auto",
-                       version_field="current_version", log=None):
+                       version_field="current_version", log=None,
+                       on_version=None):
     """Non-blocking update check for tkinter apps. Called once at startup.
 
     - Fetches version.json in a background thread (silent on failure).
-    - If a newer version exists, asks the user on the main thread.
+    - The version number comes FROM THE SITE: after a successful check the
+      tool adopts the site's version (via on_version callback) even if no
+      update is needed — so the number inside the tool always matches
+      the site.
+    - Asks the user only when the site version is newer than the version
+      recorded locally — and only ONCE per version (declined versions are
+      remembered and never asked again unless a newer one appears).
     - On approval, downloads + installs in a background thread and shows
       a "restart required" dialog.
 
+    on_version: optional callback(remote_version) called on the main
+                thread after a successful check — update the UI there.
     log: optional callback (called from background threads).
     """
     log = log or _safe_print
@@ -167,9 +237,27 @@ def start_update_check(root, script_dir, current_version, app_title="WiFi Auto",
             log("[updater] Could not reach the update server (offline?).")
             return
         remote = info.get(version_field) or info.get("current_version", "")
-        if not is_newer(remote, current_version):
+
+        # Version comes from the site — adopt it (main thread, UI update).
+        if remote:
+            def sync_ui():
+                if on_version:
+                    try:
+                        on_version(str(remote))
+                    except Exception:
+                        pass
+            root.after(0, sync_ui)
+
+        state = load_state(script_dir)
+        installed = state.get("installed_version") or str(current_version)
+        declined = state.get("declined_version") or ""
+
+        if not is_newer(remote, installed):
             log(f"[updater] Already on the latest version "
-                f"({current_version}).")
+                f"({installed}).")
+            return
+        if declined and not is_newer(remote, declined):
+            log(f"[updater] v{remote} was declined before — skipping.")
             return
 
         def ask():
@@ -182,7 +270,7 @@ def start_update_check(root, script_dir, current_version, app_title="WiFi Auto",
                 want = mbox.askyesno(
                     f"{app_title} - Update available",
                     "A new version is available!\n\n"
-                    f"Current : v{current_version}\n"
+                    f"Current : v{installed}\n"
                     f"New     : v{remote}\n\n"
                     f"What's new:\n{preview}\n\n"
                     "Download and install it now?")
@@ -190,6 +278,7 @@ def start_update_check(root, script_dir, current_version, app_title="WiFi Auto",
                 return
             if not want:
                 log(f"[updater] User declined update to v{remote}.")
+                save_state(script_dir, declined_version=str(remote))
                 return
 
             def install_now():
@@ -199,17 +288,29 @@ def start_update_check(root, script_dir, current_version, app_title="WiFi Auto",
                     ok = False
                     log(f"[updater] Update failed: {e}")
                 if ok:
-                    def done():
-                        try:
-                            import tkinter.messagebox as mbox
-                            mbox.showinfo(
-                                f"{app_title} - Update complete",
-                                "The update was installed successfully.\n\n"
-                                "Please restart the app to use the new "
-                                "version.")
-                        except Exception:
-                            pass
-                    root.after(0, done)
+                    save_state(script_dir,
+                               installed_version=str(remote),
+                               declined_version="")
+                    # Keep the UI in sync with the newly installed version.
+                    def sync_after():
+                        if on_version:
+                            try:
+                                on_version(str(remote))
+                            except Exception:
+                                pass
+
+                        def done():
+                            try:
+                                import tkinter.messagebox as mbox
+                                mbox.showinfo(
+                                    f"{app_title} - Update complete",
+                                    "The update was installed successfully.\n\n"
+                                    "Please restart the app to use the new "
+                                    "version.")
+                            except Exception:
+                                pass
+                        root.after(0, done)
+                    root.after(0, sync_after)
 
             threading.Thread(target=install_now, daemon=True).start()
 

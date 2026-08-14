@@ -37,7 +37,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from updater import start_update_check
 
 APP_TITLE = "WiFi Auto"
-APP_VERSION = "2.0"
+APP_VERSION = "2.2"
 DEVELOPER = "ALX-ZORO"
 
 ICON_B64 = "iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAABcElEQVR42u2bvQ0CMQxGPQOiQicKWmZiBoZlDKQrWAA6BKf7SWzHIeQVLq644nt2bCdxZLcfnj2bAAAAAAAAAAAQZ4fjedP+CkCK4JpA5FdFR8GQVoSXAiEtiveEIC0K9wQhrYu3QpAa4ofL9W2n2/hl0RAkQvyn4KlNAViBFAdgEZ7zrwVEMQAa4R7rWwOiGgBP4UsgqgDwFj+XA2pAkCjxmiQYAcEFQI54rzWfCsEMwCLemgy3QHhAcAFQOhluQSgGQOv9EpVgCYI1CsTb+ynita3wGoRwAGve13SGORVAEwXZALy9n5oQtYlPGwUS4X3LXqB0FLgB2PL+5/d9fCxailfnxIYD0FaENfFTCLmZvzoAq/dzo6A5ACni56KgWQCa8M9ZBgBgCZAEfwtAV2Ww+0ao61a4i81Q99thDkQ4EuNQlGNxLka4GuNylOtxBiQYkWFIijE5BiUZlWVYmnF5HkzwZIZHUzybA8AfAngBQZubRKg2MjUAAAAASUVORK5CYII="
@@ -1106,7 +1106,23 @@ class WiFiAutoApp:
         start_update_check(
             self.root, SCRIPT_DIR, APP_VERSION, APP_TITLE,
             version_field="current_version",
-            log=lambda m: self.events.put(("log", m)))
+            log=lambda m: self.events.put(("log", m)),
+            on_version=self._apply_remote_version)
+
+    def _apply_remote_version(self, ver):
+        """Version comes from the site — sync every place that shows it."""
+        global APP_VERSION
+        APP_VERSION = str(ver)
+        try:
+            self.root.title(f"{APP_TITLE} v{APP_VERSION} — By {DEVELOPER}")
+            for lbl in self._ver_labels:
+                lbl.config(text=f"v{APP_VERSION}  •  Developed by {DEVELOPER}")
+            if getattr(self, "footer_ver_lbl", None) is not None:
+                self.footer_ver_lbl.config(
+                    text=f"{APP_TITLE} v{APP_VERSION} \u2022 "
+                         "Developed by " + DEVELOPER)
+        except Exception:
+            pass
 
     def _build_ui(self):
         # ---- Notebook: Tab 1 = WiFi Auto, Tab 2 = MikrotikSploit ----
@@ -1139,6 +1155,7 @@ class WiFiAutoApp:
         sub_lbl = tk.Label(brand, text=f"v{APP_VERSION}  •  Developed by {DEVELOPER}",
                            bg=COL_PANEL, fg=COL_ACCENT, font=("Segoe UI", 9, "bold"))
         sub_lbl.pack(anchor=tk.W, pady=(2, 0))
+        self._ver_labels = [sub_lbl]
 
         dev_lbl = tk.Label(brand, text=get_device_info(),
                            bg=COL_PANEL, fg=COL_MUTED, font=("Segoe UI", 8))
@@ -1235,9 +1252,10 @@ class WiFiAutoApp:
         tk.Frame(self.main_tab, bg=COL_ACCENT, height=1).pack(fill=tk.X)
         footer = tk.Frame(self.main_tab, bg=COL_BG)
         footer.pack(fill=tk.X)
-        ttk.Label(footer, text=f"{APP_TITLE} v{APP_VERSION} \u2022 "
+        self.footer_ver_lbl = ttk.Label(footer, text=f"{APP_TITLE} v{APP_VERSION} \u2022 "
                   "Developed by " + DEVELOPER,
-                  style="Version.TLabel").pack(side=tk.RIGHT, padx=14, pady=4)
+                  style="Version.TLabel")
+        self.footer_ver_lbl.pack(side=tk.RIGHT, padx=14, pady=4)
 
         if not IS_ROOT:
             self.log("[WARNING] Not running as Administrator/root! MAC change and advanced ARP sweep need admin privileges.")

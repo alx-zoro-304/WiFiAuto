@@ -33,10 +33,12 @@ with open('version.json', 'w', encoding='utf-8') as f:
     f.write('\n')
 EOF
 
-read -rp "هل تغيّر MAC Changer Pro أيضاً؟ (y/N): " MC_CHANGED
-if [[ "$MC_CHANGED" =~ ^[yY] ]]; then
-  read -rp "إصدار MAC Changer الجديد (مثال: 1.1): " MC_VER
-  python3 - "$MC_VER" <<'EOF'
+echo "==> رفع إصدار الأدوات (APP_VERSION) إلى v$NEW_VER داخل الملفات"
+for F in tool/wifi_auto_gui.py tool/mac_changer_pro.py \
+         tool-linux/wifi_auto_gui.py tool-linux/mac_changer_pro.py; do
+  sed -i "s/^APP_VERSION = .*/APP_VERSION = \"$NEW_VER\"/" "$F"
+done
+python3 - "$NEW_VER" <<'EOF'
 import json, sys
 ver = sys.argv[1]
 with open('version.json', encoding='utf-8') as f:
@@ -46,7 +48,6 @@ with open('version.json', 'w', encoding='utf-8') as f:
     json.dump(d, f, ensure_ascii=False, indent=2)
     f.write('\n')
 EOF
-fi
 
 read -rp "إضافة سطر في سجل التحديثات؟ (y/N): " ADD_CL
 if [[ "$ADD_CL" =~ ^[yY] ]]; then
