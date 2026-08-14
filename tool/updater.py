@@ -21,8 +21,8 @@ import threading
 import urllib.request
 import zipfile
 
-UPDATE_URL = "https://alx-zoro.github.io/WiFiAuto/version.json"
-DOWNLOAD_BASE = "https://alx-zoro.github.io/WiFiAuto/"
+UPDATE_URL = "https://alx-zoro-304.github.io/WiFiAuto/version.json"
+DOWNLOAD_BASE = "https://alx-zoro-304.github.io/WiFiAuto/"
 USER_AGENT = "WiFiAuto-Updater/2.0"
 
 IS_WINDOWS = sys.platform.startswith("win")

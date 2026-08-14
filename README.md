@@ -43,7 +43,7 @@ git push -u origin main
 ```
 
 ثم من صفحة الريبو: **Settings → Pages → Source: GitHub Actions**.
-الموقع سيكون على: `https://alx-zoro.github.io/WiFiAuto/`
+الموقع سيكون على: `https://alx-zoro-304.github.io/WiFiAuto/`
 
 > ⚠️ إذا غيّرت اسم الريبو عن `WiFiAuto`، عدّل الروابط في:
 > `tool/updater.py` (السطران UPDATE_URL و DOWNLOAD_BASE) و `version.json` (homepage).
