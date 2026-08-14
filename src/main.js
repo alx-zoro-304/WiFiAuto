@@ -33,17 +33,30 @@ const I18N = {
     sk6_t: 'Real-World Testing', sk6_d: 'Everything is tested on actual hardware (Realtek, Windows & Linux) before it ships.',
     tools_tag: 'My tools', tools_title: 'Tools I built',
     tools_sub: 'Free, self-contained, and regularly updated — each with its own auto-updater.',
+    platform_win: 'Windows tools', platform_linux: 'Linux tools',
     tools_wa_ver: 'v2.0 · Windows + Linux · single file',
     tools_mc_ver: 'v1.0 · Windows · all adapters',
+    tools_wal_ver: 'v2.0 · Linux · + MikrotikSploit tab',
+    tools_mcl_ver: 'v1.0 · Linux · ip link',
+    tools_mk_ver: 'Linux · security toolkit · included',
     tools_d1: 'Finds open networks, deep-scans every device, ranks their activity, then recovers your internet automatically. One click, end to end.',
     tools_l1: 'Open network finder + auto connect',
     tools_l2: 'Deep scan of 2044 addresses',
     tools_l3: 'Smart MAC spoofing + internet test',
-    tools_btn1: 'Download', tools_btn2: 'Download', tools_btn3: 'How to use',
+    tools_btn1: 'Download', tools_btn2: 'Download', tools_btn3: 'How to use', tools_btn4: 'Get the Linux package',
     tools_d2: 'Standalone MAC address changer that detects every adapter, changes via registry with driver verification, and explains failures clearly.',
     tools_l4: 'All adapters with driver names',
     tools_l5: 'One-click restore original MAC',
     tools_l6: 'Clear failure diagnostics',
+    tools_d3: 'The full Linux edition: same deep-scan engine with native MAC change via ip link — plus a built-in MikrotikSploit tab and .desktop launchers for one-click startup.',
+    tools_l7: 'Native MAC change via ip link',
+    tools_l8: 'Deep ARP scan + traffic ranking',
+    tools_l9: 'MikrotikSploit tab built in',
+    tools_d4: 'Linux edition: detects every adapter from /sys with driver names, changes MAC via ip link (down → address → up) with real verification — and gives you clear failure diagnostics.',
+    tools_l10: 'WiFi / Ethernet detection + drivers',
+    tools_l11: 'Verified change + one-click restore',
+    tools_l12: 'pkexec launcher included',
+    tools_d5: 'MikroTik security testing toolkit: vulnerability scanning, admin panel access testing, login-card credential discovery, and a DoS stress module. Ships inside the Linux package — run standalone or from the MikrotikSploit tab inside WiFi Auto.',
     tools_c1: 'More coming soon', tools_c2: 'New tools are in the works',
     tools_c3: 'This space is reserved for the next tool in the ALX-ZORO toolkit — watch this site, the tools update themselves automatically.',
     usage_tag: 'Quick start', usage_title: 'How to use',
@@ -52,9 +65,10 @@ const I18N = {
     uw1: 'Run <code>start.bat</code> (UAC opens → Yes)',
     uw2: 'Pick an open network → press Start',
     uw3: 'Done — internet works automatically',
-    ul1: 'Run <code>./start.sh</code> (asks sudo)',
+    ul1: 'Double-click <code>WiFi Auto.desktop</code> (asks password)',
     ul2: 'Pick an open network → press Start',
     ul3: 'Done — internet works automatically',
+    ul_alt: 'Or from terminal: <code class="font-mono text-cyan-400">./start_wifi_auto.sh</code>',
     um1: 'Run <code>start_changer.bat</code> (UAC opens → Yes)',
     um2: 'Select your adapter → enter a MAC',
     um3: 'Press Apply — or Restore to go back',
@@ -63,13 +77,17 @@ const I18N = {
     dl_tag: 'Get it now', dl_title: 'Download',
     dl_sub: 'Always free. Your installed tools check this page automatically for updates.',
     dl_checking: 'Checking...', dl_ok: 'Up to date', dl_error: 'Offline preview — latest known:',
-    dl_wa_platform: 'Windows + Linux',
-    dl_mc_platform: 'Windows only',
+    dl_linux_ready: 'Ready',
     dl_zip: 'Windows — full package (ZIP)',
     dl_tar: 'Linux — full package (TAR.GZ)',
-    dl_py: 'Both — wifi_auto_gui.py (raw)',
-    dl_mc: 'Download mac_changer_pro.py',
+    dl_py: 'wifi_auto_gui.py (raw)',
+    dl_py_l: 'wifi_auto_gui.py — Linux (raw)',
+    dl_mc: 'mac_changer_pro.py (raw)',
+    dl_mc_l: 'mac_changer_pro.py — Linux (raw)',
     dl_exe: 'MAC-Address-Tool.exe',
+    dl_readme: 'README (Linux) — setup guide',
+    dl_win_note: 'Run <code class="font-mono text-cyan-400">start.bat</code> as Administrator. Needs Python 3.8+.',
+    dl_lin_note: 'Needs Python 3 + tkinter + NetworkManager. Double-click <code class="font-mono text-cyan-400">WiFi Auto.desktop</code>.',
     dl_note: 'All packages include <code class="font-mono text-cyan-400">updater.py</code> — the auto-update system. Backups are created before every update.',
     cl_tag: 'History', cl_title: 'Changelog',
   },
@@ -99,17 +117,30 @@ const I18N = {
     sk6_t: 'اختبار حقيقي', sk6_d: 'كل شيء يُختبر على عتاد فعلي (Realtek، ويندوز ولينكس) قبل الإصدار.',
     tools_tag: 'أدواتي', tools_title: 'أدوات صنعتها',
     tools_sub: 'مجانية، مكتفية بذاتها، ومحدّثة بانتظام — وكل واحدة فيها نظام تحديث تلقائي.',
+    platform_win: 'أدوات ويندوز', platform_linux: 'أدوات لينكس',
     tools_wa_ver: 'v2.0 · ويندوز + لينكس · ملف واحد',
     tools_mc_ver: 'v1.0 · ويندوز · كل المحولات',
+    tools_wal_ver: 'v2.0 · لينكس · + تبويب MikrotikSploit',
+    tools_mcl_ver: 'v1.0 · لينكس · ip link',
+    tools_mk_ver: 'لينكس · حقيبة أمان · مضمّنة',
     tools_d1: 'يجد الشبكات المفتوحة، يفحص كل الأجهزة بفحص عميق، يرتب نشاطها، ثم يستعيد الإنترنت تلقائياً. بنقرة واحدة من البداية للنهاية.',
     tools_l1: 'مكتشف الشبكات المفتوحة + اتصال تلقائي',
     tools_l2: 'فحص عميق لـ 2044 عنواناً',
     tools_l3: 'انتحال MAC ذكي + اختبار الإنترنت',
-    tools_btn1: 'حمّل', tools_btn2: 'حمّل', tools_btn3: 'طريقة الاستخدام',
+    tools_btn1: 'حمّل', tools_btn2: 'حمّل', tools_btn3: 'طريقة الاستخدام', tools_btn4: 'حمّل حزمة اللينكس',
     tools_d2: 'أداة مستقلة لتغيير MAC تكتشف كل المحولات، تغيّر عبر السجل مع تحقق من التعريف، وتشرح الأخطاء بوضوح.',
     tools_l4: 'كل المحولات مع أسماء التعريفات',
     tools_l5: 'استعادة MAC الأصلي بنقرة واحدة',
     tools_l6: 'تشخيص واضح للأخطاء',
+    tools_d3: 'نسخة اللينكس الكاملة: نفس محرك الفحص العميق مع تغيير MAC أصلي عبر ip link — بالإضافة إلى تبويب MikrotikSploit مدمج ومشغلات .desktop للبدء بنقرة واحدة.',
+    tools_l7: 'تغيير MAC أصلي عبر ip link',
+    tools_l8: 'فحص ARP عميق + ترتيب الحركة',
+    tools_l9: 'تبويب MikrotikSploit مدمج',
+    tools_d4: 'نسخة اللينكس: تكتشف كل المحولات من /sys مع أسماء التعريفات، تغيّر MAC عبر ip link (تعطيل ← عنوان ← تفعيل) مع تحقق حقيقي — وتشخيص واضح للأخطاء.',
+    tools_l10: 'كشف WiFi / Ethernet + التعريفات',
+    tools_l11: 'تغيير مُتحقق + استعادة بنقرة واحدة',
+    tools_l12: 'مشغل pkexec مضمّن',
+    tools_d5: 'حقيبة اختبار أمان ميكروتيك: فحص الثغرات، اختبار وصول لوحة الإدارة، اكتشاف بيانات بطاقات الدخول، ووحدة ضغط DoS. تأتي داخل حزمة اللينكس — تشغيل مستقل أو من تبويب MikrotikSploit داخل WiFi Auto.',
     tools_c1: 'قريباً المزيد', tools_c2: 'أدوات جديدة قيد التطوير',
     tools_c3: 'هذه المساحة محجوزة للأداة القادمة في حقيبة ALX-ZORO — تابع الموقع، الأدوات تحدّث نفسها تلقائياً.',
     usage_tag: 'بداية سريعة', usage_title: 'طريقة الاستخدام',
@@ -118,9 +149,10 @@ const I18N = {
     uw1: 'شغّل <code>start.bat</code> (تظهر UAC → نعم)',
     uw2: 'اختر شبكة مفتوحة → اضغط ابدأ',
     uw3: 'انتهى — الإنترنت يعمل تلقائياً',
-    ul1: 'شغّل <code>./start.sh</code> (يطلب sudo)',
+    ul1: 'انقر نقرة مزدوجة على <code>WiFi Auto.desktop</code> (يطلب كلمة المرور)',
     ul2: 'اختر شبكة مفتوحة → اضغط ابدأ',
     ul3: 'انتهى — الإنترنت يعمل تلقائياً',
+    ul_alt: 'أو من الطرفية: <code class="font-mono text-cyan-400">./start_wifi_auto.sh</code>',
     um1: 'شغّل <code>start_changer.bat</code> (تظهر UAC → نعم)',
     um2: 'اختر المحول → أدخل MAC',
     um3: 'اضغط تطبيق — أو استعادة للرجوع',
@@ -129,13 +161,17 @@ const I18N = {
     dl_tag: 'حمّله الآن', dl_title: 'التحميل',
     dl_sub: 'مجاني دائماً. أدواتك المثبتة تفحص هذه الصفحة تلقائياً بحثاً عن التحديثات.',
     dl_checking: 'جارٍ الفحص...', dl_ok: 'الموقع محدث', dl_error: 'معاينة بدون اتصال — آخر إصدار معروف:',
-    dl_wa_platform: 'ويندوز + لينكس',
-    dl_mc_platform: 'ويندوز فقط',
+    dl_linux_ready: 'جاهزة',
     dl_zip: 'ويندوز — الحزمة الكاملة (ZIP)',
     dl_tar: 'لينكس — الحزمة الكاملة (TAR.GZ)',
-    dl_py: 'الاثنان — wifi_auto_gui.py (خام)',
-    dl_mc: 'حمّل mac_changer_pro.py',
+    dl_py: 'wifi_auto_gui.py (خام)',
+    dl_py_l: 'wifi_auto_gui.py — لينكس (خام)',
+    dl_mc: 'mac_changer_pro.py (خام)',
+    dl_mc_l: 'mac_changer_pro.py — لينكس (خام)',
     dl_exe: 'MAC-Address-Tool.exe',
+    dl_readme: 'README (لينكس) — دليل التشغيل',
+    dl_win_note: 'شغّل <code class="font-mono text-cyan-400">start.bat</code> كمسؤول. يلزم Python 3.8+.',
+    dl_lin_note: 'يلزم Python 3 + tkinter + NetworkManager. انقر نقرة مزدوجة على <code class="font-mono text-cyan-400">WiFi Auto.desktop</code>.',
     dl_note: 'كل الحزم تتضمن <code class="font-mono text-cyan-400">updater.py</code> — نظام التحديث التلقائي. تُنشأ نسخ احتياطية قبل كل تحديث.',
     cl_tag: 'السجل', cl_title: 'سجل التحديثات',
   }
@@ -307,20 +343,24 @@ document.querySelectorAll('.card').forEach(card => {
 /* ---------- version.json integration ---------- */
 async function loadVersion() {
   const vNum = document.getElementById('vNum')
-  const vNumMc = document.getElementById('vNumMc')
+  const vNumLinux = document.getElementById('vNumLinux')
   const vDate = document.getElementById('vDate')
   const vStatus = document.getElementById('vStatus')
+  const vStatusLinux = document.getElementById('vStatusLinux')
   try {
     const res = await fetch('./version.json', { cache: 'no-store' })
     if (!res.ok) throw new Error('not found')
     const data = await res.json()
     vNum.textContent = data.current_version
-    if (vNumMc) vNumMc.textContent = data.mac_changer_version || '1.0'
+    if (vNumLinux) vNumLinux.textContent = data.current_version
     if (vDate) vDate.textContent = data.published
     vStatus.innerHTML = `<span class="pulse-dot"></span><span>${I18N[lang].dl_ok} — v${data.current_version}</span>`
     const dl = document.getElementById('dlZip')
     if (data.downloads?.zip) dl.href = data.downloads.zip
-    const links = { dlTar: 'linux_tar', dlPy: 'wifi_auto_gui_py', dlMc: 'mac_changer_pro_py', dlExe: 'exe' }
+    const links = {
+      dlTar: 'linux_tar', dlPy: 'wifi_auto_gui_py', dlMc: 'mac_changer_pro_py',
+      dlExe: 'exe', dlPyL: 'wifi_auto_gui_linux_py', dlMcL: 'mac_changer_pro_linux_py'
+    }
     for (const [id, key] of Object.entries(links)) {
       const el = document.getElementById(id)
       if (data.downloads?.[key]) el.href = data.downloads[key]

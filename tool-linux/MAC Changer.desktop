@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=MAC Changer Pro (Linux)
+Comment=Launch MAC Changer with administrator rights
+Exec=/home/zoro/Desktop/WiFiAuto-Linux/start_changer.sh
+Icon=utilities-terminal
+Terminal=false
+Categories=Utility;
+StartupNotify=true

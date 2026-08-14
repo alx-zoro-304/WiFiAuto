@@ -41,10 +41,13 @@ jobs:
             if command -v zip >/dev/null; then
               (cd tool && zip -r ../public/downloads/WiFiAuto_v2.zip . -x "*.pyc" "__pycache__/*") || true
             fi
+          fi
+          if [ -d tool-linux ]; then
             if command -v tar >/dev/null; then
-              (cd tool && tar -czf ../public/downloads/WiFiAuto_v2-linux.tar.gz wifi_auto_gui.py mac_changer_pro.py updater.py start.sh start.bat start_changer.bat) || \
-              (cd tool && tar -czf ../public/downloads/WiFiAuto_v2-linux.tar.gz wifi_auto_gui.py updater.py start.sh) || true
+              (cd tool-linux && tar -czf ../public/downloads/WiFiAuto_v2-linux.tar.gz wifi_auto_gui.py mac_changer_pro.py updater.py start_wifi_auto.sh start_changer.sh "WiFi Auto.desktop" "MAC Changer.desktop" README.txt MikrotikSploit) || true
             fi
+            cp tool-linux/wifi_auto_gui.py public/downloads/wifi_auto_gui_linux.py 2>/dev/null || true
+            cp tool-linux/mac_changer_pro.py public/downloads/mac_changer_pro_linux.py 2>/dev/null || true
           fi
           cp version.json public/version.json
 

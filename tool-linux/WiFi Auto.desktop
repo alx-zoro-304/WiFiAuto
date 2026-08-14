@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=WiFi Auto (Linux)
+Comment=Launch WiFi Auto with administrator rights
+Exec=/home/zoro/Desktop/WiFiAuto-Linux/start_wifi_auto.sh
+Icon=utilities-terminal
+Terminal=false
+Categories=Utility;
+StartupNotify=true

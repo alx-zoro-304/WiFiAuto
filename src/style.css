@@ -327,6 +327,36 @@ code {
   padding: 1.4rem 1.6rem;
 }
 
+/* ---------- Platform badges / section headers ---------- */
+.platform-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px; height: 44px;
+  border-radius: .9rem;
+  font-size: 1.25rem;
+  border: 1px solid var(--border);
+  background: rgba(28,31,42,.8);
+  flex-shrink: 0;
+}
+.platform-badge.win { border-color: rgba(34,211,238,.35); background: rgba(34,211,238,.08); }
+.platform-badge.lin { border-color: rgba(16,185,129,.35); background: rgba(16,185,129,.08); }
+.platform-title {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #fff;
+  white-space: nowrap;
+}
+.platform-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, var(--border), transparent);
+}
+html[dir="rtl"] .platform-line {
+  background: linear-gradient(-90deg, var(--border), transparent);
+}
+
 /* ---------- Usage cards ---------- */
 .usage-card {
   background: linear-gradient(165deg, rgba(28,31,42,.9), rgba(18,20,28,.9));

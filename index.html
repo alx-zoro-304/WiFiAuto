@@ -198,63 +198,147 @@
           <h2 class="section-title" data-i18n="tools_title">Tools I built</h2>
           <p class="section-sub" data-i18n="tools_sub">Free, self-contained, and regularly updated — each with its own auto-updater.</p>
         </div>
-        <div class="mt-14 grid md:grid-cols-2 gap-8">
-          <div class="tool-card reveal">
-            <div class="flex items-center justify-between">
-              <div>
-                <h3 class="font-display text-2xl font-bold text-white">WiFi <span class="grad-text">Auto</span></h3>
-                <p class="text-slate-400 text-sm mt-1 font-mono" data-i18n="tools_wa_ver">v2.0 · Windows + Linux · single file</p>
+
+        <!-- ===== Windows section ===== -->
+        <div class="mt-16 reveal">
+          <div class="flex items-center gap-3 mb-8">
+            <span class="platform-badge win">🪟</span>
+            <h3 class="platform-title" data-i18n="platform_win">Windows</h3>
+            <span class="platform-line"></span>
+          </div>
+          <div class="grid md:grid-cols-2 gap-8">
+            <div class="tool-card reveal">
+              <div class="flex items-center justify-between">
+                <div>
+                  <h3 class="font-display text-2xl font-bold text-white">WiFi <span class="grad-text">Auto</span></h3>
+                  <p class="text-slate-400 text-sm mt-1 font-mono" data-i18n="tools_wa_ver">v2.0 · Windows + Linux · single file</p>
+                </div>
+                <span class="version-chip">v2.0</span>
               </div>
-              <span class="version-chip">v2.0</span>
+              <p class="mt-5 text-slate-300 leading-relaxed" data-i18n="tools_d1">
+                Finds open networks, deep-scans every device, ranks their activity,
+                then recovers your internet automatically. One click, end to end.
+              </p>
+              <ul class="mt-5 space-y-2 text-sm text-slate-400">
+                <li class="flex gap-2"><span class="tick">✓</span><span data-i18n="tools_l1">Open network finder + auto connect</span></li>
+                <li class="flex gap-2"><span class="tick">✓</span><span data-i18n="tools_l2">Deep scan of 2044 addresses</span></li>
+                <li class="flex gap-2"><span class="tick">✓</span><span data-i18n="tools_l3">Smart MAC spoofing + internet test</span></li>
+              </ul>
+              <div class="mt-6 flex flex-wrap gap-3">
+                <a href="#download" class="btn btn-accent btn-sm" data-i18n="tools_btn1">Download</a>
+                <a href="#usage" class="btn btn-ghost btn-sm" data-i18n="tools_btn3">How to use</a>
+              </div>
             </div>
-            <p class="mt-5 text-slate-300 leading-relaxed" data-i18n="tools_d1">
-              Finds open networks, deep-scans every device, ranks their activity,
-              then recovers your internet automatically. One click, end to end.
-            </p>
-            <ul class="mt-5 space-y-2 text-sm text-slate-400">
-              <li class="flex gap-2"><span class="tick">✓</span><span data-i18n="tools_l1">Open network finder + auto connect</span></li>
-              <li class="flex gap-2"><span class="tick">✓</span><span data-i18n="tools_l2">Deep scan of 2044 addresses</span></li>
-              <li class="flex gap-2"><span class="tick">✓</span><span data-i18n="tools_l3">Smart MAC spoofing + internet test</span></li>
-            </ul>
-            <div class="mt-6 flex flex-wrap gap-3">
-              <a href="#download" class="btn btn-accent btn-sm" data-i18n="tools_btn1">Download</a>
-              <a href="#usage" class="btn btn-ghost btn-sm" data-i18n="tools_btn3">How to use</a>
+            <div class="tool-card reveal">
+              <div class="flex items-center justify-between">
+                <div>
+                  <h3 class="font-display text-2xl font-bold text-white">MAC <span class="grad-text">Changer Pro</span></h3>
+                  <p class="text-slate-400 text-sm mt-1 font-mono" data-i18n="tools_mc_ver">v1.0 · Windows · all adapters</p>
+                </div>
+                <span class="version-chip chip-green">Pro</span>
+              </div>
+              <p class="mt-5 text-slate-300 leading-relaxed" data-i18n="tools_d2">
+                Standalone MAC address changer that detects every adapter, changes
+                via registry with driver verification, and explains failures clearly.
+              </p>
+              <ul class="mt-5 space-y-2 text-sm text-slate-400">
+                <li class="flex gap-2"><span class="tick">✓</span><span data-i18n="tools_l4">All adapters with driver names</span></li>
+                <li class="flex gap-2"><span class="tick">✓</span><span data-i18n="tools_l5">One-click restore original MAC</span></li>
+                <li class="flex gap-2"><span class="tick">✓</span><span data-i18n="tools_l6">Clear failure diagnostics</span></li>
+              </ul>
+              <div class="mt-6 flex flex-wrap gap-3">
+                <a href="#download" class="btn btn-ghost btn-sm" data-i18n="tools_btn2">Download</a>
+                <a href="#usage" class="btn btn-ghost btn-sm" data-i18n="tools_btn3">How to use</a>
+              </div>
             </div>
           </div>
-          <div class="tool-card reveal">
-            <div class="flex items-center justify-between">
-              <div>
-                <h3 class="font-display text-2xl font-bold text-white">MAC <span class="grad-text">Changer Pro</span></h3>
-                <p class="text-slate-400 text-sm mt-1 font-mono" data-i18n="tools_mc_ver">v1.0 · Windows · all adapters</p>
-              </div>
-              <span class="version-chip chip-green">Pro</span>
-            </div>
-            <p class="mt-5 text-slate-300 leading-relaxed" data-i18n="tools_d2">
-              Standalone MAC address changer that detects every adapter, changes
-              via registry with driver verification, and explains failures clearly.
-            </p>
-            <ul class="mt-5 space-y-2 text-sm text-slate-400">
-              <li class="flex gap-2"><span class="tick">✓</span><span data-i18n="tools_l4">All adapters with driver names</span></li>
-              <li class="flex gap-2"><span class="tick">✓</span><span data-i18n="tools_l5">One-click restore original MAC</span></li>
-              <li class="flex gap-2"><span class="tick">✓</span><span data-i18n="tools_l6">Clear failure diagnostics</span></li>
-            </ul>
-            <div class="mt-6 flex flex-wrap gap-3">
-              <a href="#download" class="btn btn-ghost btn-sm" data-i18n="tools_btn2">Download</a>
-              <a href="#usage" class="btn btn-ghost btn-sm" data-i18n="tools_btn3">How to use</a>
-            </div>
+        </div>
+
+        <!-- ===== Linux section ===== -->
+        <div class="mt-16 reveal">
+          <div class="flex items-center gap-3 mb-8">
+            <span class="platform-badge lin">🐧</span>
+            <h3 class="platform-title" data-i18n="platform_linux">Linux</h3>
+            <span class="platform-line"></span>
           </div>
-          <div class="tool-card dashed reveal">
-            <div class="flex items-center justify-between">
-              <div>
-                <h3 class="font-display text-2xl font-bold text-slate-500" data-i18n="tools_c1">More coming soon</h3>
-                <p class="text-slate-500 text-sm mt-1" data-i18n="tools_c2">New tools are in the works</p>
+          <div class="grid md:grid-cols-2 gap-8">
+            <div class="tool-card reveal">
+              <div class="flex items-center justify-between">
+                <div>
+                  <h3 class="font-display text-2xl font-bold text-white">WiFi <span class="grad-text">Auto</span></h3>
+                  <p class="text-slate-400 text-sm mt-1 font-mono" data-i18n="tools_wal_ver">v2.0 · Linux · + MikrotikSploit tab</p>
+                </div>
+                <span class="version-chip">v2.0</span>
               </div>
-              <span class="version-chip">soon</span>
+              <p class="mt-5 text-slate-300 leading-relaxed" data-i18n="tools_d3">
+                The full Linux edition: same deep-scan engine with native MAC change
+                via <code>ip link</code> — plus a built-in MikrotikSploit tab and
+                .desktop launchers for one-click startup.
+              </p>
+              <ul class="mt-5 space-y-2 text-sm text-slate-400">
+                <li class="flex gap-2"><span class="tick">✓</span><span data-i18n="tools_l7">Native MAC change via ip link</span></li>
+                <li class="flex gap-2"><span class="tick">✓</span><span data-i18n="tools_l8">Deep ARP scan + traffic ranking</span></li>
+                <li class="flex gap-2"><span class="tick">✓</span><span data-i18n="tools_l9">MikrotikSploit tab built in</span></li>
+              </ul>
+              <div class="mt-6 flex flex-wrap gap-3">
+                <a href="#download" class="btn btn-accent btn-sm" data-i18n="tools_btn1">Download</a>
+                <a href="#usage" class="btn btn-ghost btn-sm" data-i18n="tools_btn3">How to use</a>
+              </div>
             </div>
-            <p class="mt-5 text-slate-500 leading-relaxed" data-i18n="tools_c3">
-              This space is reserved for the next tool in the ALX-ZORO toolkit —
-              watch this site, the tools update themselves automatically.
-            </p>
+            <div class="tool-card reveal">
+              <div class="flex items-center justify-between">
+                <div>
+                  <h3 class="font-display text-2xl font-bold text-white">MAC <span class="grad-text">Changer Pro</span></h3>
+                  <p class="text-slate-400 text-sm mt-1 font-mono" data-i18n="tools_mcl_ver">v1.0 · Linux · ip link</p>
+                </div>
+                <span class="version-chip chip-green">Pro</span>
+              </div>
+              <p class="mt-5 text-slate-300 leading-relaxed" data-i18n="tools_d4">
+                Linux edition: detects every adapter from /sys with driver names,
+                changes MAC via <code>ip link</code> (down → address → up) with
+                real verification — and gives you clear failure diagnostics.
+              </p>
+              <ul class="mt-5 space-y-2 text-sm text-slate-400">
+                <li class="flex gap-2"><span class="tick">✓</span><span data-i18n="tools_l10">WiFi / Ethernet detection + drivers</span></li>
+                <li class="flex gap-2"><span class="tick">✓</span><span data-i18n="tools_l11">Verified change + one-click restore</span></li>
+                <li class="flex gap-2"><span class="tick">✓</span><span data-i18n="tools_l12">pkexec launcher included</span></li>
+              </ul>
+              <div class="mt-6 flex flex-wrap gap-3">
+                <a href="#download" class="btn btn-ghost btn-sm" data-i18n="tools_btn2">Download</a>
+                <a href="#usage" class="btn btn-ghost btn-sm" data-i18n="tools_btn3">How to use</a>
+              </div>
+            </div>
+            <div class="tool-card reveal md:col-span-2">
+              <div class="flex items-center justify-between">
+                <div>
+                  <h3 class="font-display text-2xl font-bold text-white">Mikrotik<span class="grad-text">Sploit</span></h3>
+                  <p class="text-slate-400 text-sm mt-1 font-mono" data-i18n="tools_mk_ver">Linux · security toolkit · included</p>
+                </div>
+                <span class="version-chip chip-green">Linux</span>
+              </div>
+              <p class="mt-5 text-slate-300 leading-relaxed max-w-3xl" data-i18n="tools_d5">
+                MikroTik security testing toolkit: vulnerability scanning, admin panel
+                access testing, login-card credential discovery, and a DoS stress module.
+                Ships inside the Linux package — run standalone or from the
+                MikrotikSploit tab inside WiFi Auto.
+              </p>
+              <div class="mt-6 flex flex-wrap gap-3">
+                <a href="#download" class="btn btn-ghost btn-sm" data-i18n="tools_btn4">Get the Linux package</a>
+              </div>
+            </div>
+            <div class="tool-card dashed reveal md:col-span-2">
+              <div class="flex items-center justify-between">
+                <div>
+                  <h3 class="font-display text-2xl font-bold text-slate-500" data-i18n="tools_c1">More coming soon</h3>
+                  <p class="text-slate-500 text-sm mt-1" data-i18n="tools_c2">New tools are in the works</p>
+                </div>
+                <span class="version-chip">soon</span>
+              </div>
+              <p class="mt-5 text-slate-500 leading-relaxed" data-i18n="tools_c3">
+                This space is reserved for the next tool in the ALX-ZORO toolkit —
+                watch this site, the tools update themselves automatically.
+              </p>
+            </div>
           </div>
         </div>
       </div>
@@ -286,10 +370,11 @@
               <div>
                 <p class="usage-os text-green-400" data-i18n="usage_linux">Linux</p>
                 <ol class="usage-ol">
-                  <li data-i18n="ul1">Run <code>./start.sh</code> (asks sudo)</li>
+                  <li data-i18n="ul1">Double-click <code>WiFi Auto.desktop</code> (asks password)</li>
                   <li data-i18n="ul2">Pick an open network → press Start</li>
                   <li data-i18n="ul3">Done — internet works automatically</li>
                 </ol>
+                <p class="mt-4 text-xs text-slate-500" data-i18n="ul_alt">Or from terminal: <code class="font-mono text-cyan-400">./start_wifi_auto.sh</code></p>
               </div>
             </div>
             <p class="mt-6 text-sm text-slate-500" data-i18n="usage_note1">Requires Python 3.8+. Needs admin/root for MAC change and deep scan.</p>
@@ -322,11 +407,13 @@
           <p class="section-sub" data-i18n="dl_sub">Always free. Your installed tools check this page automatically for updates.</p>
         </div>
 
-        <div class="mt-12 max-w-4xl mx-auto grid md:grid-cols-2 gap-6">
+        <div class="mt-12 max-w-5xl mx-auto grid lg:grid-cols-2 gap-6">
+          <!-- Windows downloads -->
           <div class="version-card reveal">
             <div class="flex items-center justify-between flex-wrap gap-3">
               <div>
                 <div class="flex items-center gap-3">
+                  <span class="platform-badge win">🪟</span>
                   <span class="version-chip">WiFi Auto v<span id="vNum">2.0</span></span>
                 </div>
                 <p class="mt-2 text-xs text-slate-500 font-mono" id="vDate">2026-08-14</p>
@@ -336,25 +423,37 @@
                 <span class="text-slate-400" data-i18n="dl_checking">Checking...</span>
               </div>
             </div>
-            <p class="mt-4 text-sm text-slate-400" data-i18n="dl_wa_platform">Windows + Linux</p>
             <div class="mt-4 grid gap-2">
               <a id="dlZip" href="./downloads/WiFiAuto_v2.zip" class="btn btn-accent btn-sm justify-start" download data-i18n="dl_zip">Windows — full package (ZIP)</a>
-              <a id="dlTar" href="./downloads/WiFiAuto_v2-linux.tar.gz" class="btn btn-ghost btn-sm justify-start" download data-i18n="dl_tar">Linux — full package (TAR.GZ)</a>
-              <a id="dlPy" href="./downloads/wifi_auto_gui.py" class="btn btn-ghost btn-sm justify-start" download data-i18n="dl_py">Both — wifi_auto_gui.py (raw)</a>
+              <a id="dlPy" href="./downloads/wifi_auto_gui.py" class="btn btn-ghost btn-sm justify-start" download data-i18n="dl_py">wifi_auto_gui.py (raw)</a>
+              <a id="dlMc" href="./downloads/mac_changer_pro.py" class="btn btn-ghost btn-sm justify-start" download data-i18n="dl_mc">mac_changer_pro.py (raw)</a>
+              <a id="dlExe" href="./downloads/MAC-Address-Tool.exe" class="btn btn-ghost btn-sm justify-start" download data-i18n="dl_exe">MAC-Address-Tool.exe</a>
             </div>
+            <p class="mt-4 text-sm text-slate-500" data-i18n="dl_win_note">Run <code class="font-mono text-cyan-400">start.bat</code> as Administrator. Needs Python 3.8+.</p>
           </div>
 
+          <!-- Linux downloads -->
           <div class="version-card reveal">
             <div class="flex items-center justify-between flex-wrap gap-3">
               <div>
-                <span class="version-chip chip-green">MAC Changer Pro v<span id="vNumMc">1.0</span></span>
+                <div class="flex items-center gap-3">
+                  <span class="platform-badge lin">🐧</span>
+                  <span class="version-chip">WiFi Auto v<span id="vNumLinux">2.0</span></span>
+                </div>
+                <p class="mt-2 text-xs text-slate-500 font-mono">Linux edition · includes MikrotikSploit</p>
+              </div>
+              <div class="flex items-center gap-2 text-sm" id="vStatusLinux">
+                <span class="pulse-dot"></span>
+                <span class="text-slate-400" data-i18n="dl_linux_ready">Ready</span>
               </div>
             </div>
-            <p class="mt-4 text-sm text-slate-400" data-i18n="dl_mc_platform">Windows only</p>
             <div class="mt-4 grid gap-2">
-              <a id="dlMc" href="./downloads/mac_changer_pro.py" class="btn btn-accent btn-sm justify-start" download data-i18n="dl_mc">Download mac_changer_pro.py</a>
-              <a id="dlExe" href="./downloads/MAC-Address-Tool.exe" class="btn btn-ghost btn-sm justify-start" download data-i18n="dl_exe">MAC-Address-Tool.exe</a>
+              <a id="dlTar" href="./downloads/WiFiAuto_v2-linux.tar.gz" class="btn btn-accent btn-sm justify-start" download data-i18n="dl_tar">Linux — full package (TAR.GZ)</a>
+              <a id="dlPyL" href="./downloads/wifi_auto_gui_linux.py" class="btn btn-ghost btn-sm justify-start" download data-i18n="dl_py_l">wifi_auto_gui.py — Linux (raw)</a>
+              <a id="dlMcL" href="./downloads/mac_changer_pro_linux.py" class="btn btn-ghost btn-sm justify-start" download data-i18n="dl_mc_l">mac_changer_pro.py — Linux (raw)</a>
+              <a id="dlReadme" href="./downloads/README_LINUX.txt" class="btn btn-ghost btn-sm justify-start" download data-i18n="dl_readme">README (Linux) — setup guide</a>
             </div>
+            <p class="mt-4 text-sm text-slate-500" data-i18n="dl_lin_note">Needs Python 3 + tkinter + NetworkManager. Double-click <code class="font-mono text-cyan-400">WiFi Auto.desktop</code>.</p>
           </div>
         </div>
 

@@ -9,7 +9,9 @@
     "zip": "downloads/WiFiAuto_v2.zip",
     "linux_tar": "downloads/WiFiAuto_v2-linux.tar.gz",
     "wifi_auto_gui_py": "downloads/wifi_auto_gui.py",
+    "wifi_auto_gui_linux_py": "downloads/wifi_auto_gui_linux.py",
     "mac_changer_pro_py": "downloads/mac_changer_pro.py",
+    "mac_changer_pro_linux_py": "downloads/mac_changer_pro_linux.py",
     "exe": "downloads/MAC-Address-Tool.exe"
   },
   "changelog": [
@@ -21,6 +23,7 @@
         "Deep scan: 2044 addresses, repeated rounds, merged results",
         "Native MAC change via registry (disable → write → enable)",
         "Traffic ranking + smart MAC attempt order",
+        "Linux edition: built-in MikrotikSploit tab",
         "Built-in updater — checks this site automatically"
       ],
       "notes_ar": [
@@ -28,6 +31,7 @@
         "فحص عميق: 2044 عنواناً، جولات متكررة ودمج النتائج",
         "تغيير MAC أصلي عبر السجل (تعطيل ← كتابة ← تفعيل)",
         "ترتيب الحركة + ترتيب ذكي لمحاولات الـ MAC",
+        "نسخة اللينكس: تبويب MikrotikSploit مدمج",
         "محدّث مدمج — يفحص هذا الموقع تلقائياً"
       ]
     }
