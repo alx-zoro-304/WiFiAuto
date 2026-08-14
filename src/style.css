@@ -304,6 +304,8 @@ html[dir="rtl"] .font-display {
   border: 1px solid rgba(34,211,238,.3);
 }
 .chip-green { color: var(--green); background: rgba(16,185,129,.1); border-color: rgba(16,185,129,.3); }
+.win-chip { color: #22d3ee; background: rgba(34,211,238,.1); border-color: rgba(34,211,238,.35); }
+.lin-chip { color: #34d399; background: rgba(16,185,129,.1); border-color: rgba(16,185,129,.35); }
 
 /* ---------- Version card ---------- */
 .version-card {

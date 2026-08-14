@@ -12,6 +12,7 @@
     "wifi_auto_gui_linux_py": "downloads/wifi_auto_gui_linux.py",
     "mac_changer_pro_py": "downloads/mac_changer_pro.py",
     "mac_changer_pro_linux_py": "downloads/mac_changer_pro_linux.py",
+    "readme_linux": "downloads/README_LINUX.txt",
     "exe": "downloads/MAC-Address-Tool.exe"
   },
   "changelog": [

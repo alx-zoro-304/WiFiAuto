@@ -86,6 +86,9 @@ const I18N = {
     dl_mc_l: 'mac_changer_pro.py — Linux (raw)',
     dl_exe: 'MAC-Address-Tool.exe',
     dl_readme: 'README (Linux) — setup guide',
+    dl_wal: 'Linux — wifi_auto_gui_linux.py (raw)',
+    dl_mcl: 'Linux — mac_changer_pro_linux.py',
+    dl_la_platform: 'Linux — WiFi Auto + MAC Changer + MikrotikSploit',
     dl_win_note: 'Run <code class="font-mono text-cyan-400">start.bat</code> as Administrator. Needs Python 3.8+.',
     dl_lin_note: 'Needs Python 3 + tkinter + NetworkManager. Double-click <code class="font-mono text-cyan-400">WiFi Auto.desktop</code>.',
     dl_note: 'All packages include <code class="font-mono text-cyan-400">updater.py</code> — the auto-update system. Backups are created before every update.',
@@ -170,6 +173,9 @@ const I18N = {
     dl_mc_l: 'mac_changer_pro.py — لينكس (خام)',
     dl_exe: 'MAC-Address-Tool.exe',
     dl_readme: 'README (لينكس) — دليل التشغيل',
+    dl_wal: 'لينكس — wifi_auto_gui_linux.py (ملف خام)',
+    dl_mcl: 'لينكس — mac_changer_pro_linux.py',
+    dl_la_platform: 'لينكس — WiFi Auto + MAC Changer + MikrotikSploit',
     dl_win_note: 'شغّل <code class="font-mono text-cyan-400">start.bat</code> كمسؤول. يلزم Python 3.8+.',
     dl_lin_note: 'يلزم Python 3 + tkinter + NetworkManager. انقر نقرة مزدوجة على <code class="font-mono text-cyan-400">WiFi Auto.desktop</code>.',
     dl_note: 'كل الحزم تتضمن <code class="font-mono text-cyan-400">updater.py</code> — نظام التحديث التلقائي. تُنشأ نسخ احتياطية قبل كل تحديث.',
@@ -359,7 +365,8 @@ async function loadVersion() {
     if (data.downloads?.zip) dl.href = data.downloads.zip
     const links = {
       dlTar: 'linux_tar', dlPy: 'wifi_auto_gui_py', dlMc: 'mac_changer_pro_py',
-      dlExe: 'exe', dlPyL: 'wifi_auto_gui_linux_py', dlMcL: 'mac_changer_pro_linux_py'
+      dlExe: 'exe', dlWalPy: 'wifi_auto_gui_linux_py', dlMclPy: 'mac_changer_pro_linux_py',
+      dlReadme: 'readme_linux'
     }
     for (const [id, key] of Object.entries(links)) {
       const el = document.getElementById(id)
