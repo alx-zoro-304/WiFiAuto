@@ -5,4 +5,4 @@ public/version.json
 __pycache__/
 *.pyc
 *.log
-.DS_Store
+.DS_Store.github/
