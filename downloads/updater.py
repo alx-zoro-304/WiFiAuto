@@ -26,7 +26,7 @@ import zipfile
 
 UPDATE_URL = "https://alx-zoro-304.github.io/WiFiAuto/version.json"
 DOWNLOAD_BASE = "https://alx-zoro-304.github.io/WiFiAuto/"
-USER_AGENT = "WiFiAuto-Updater/2.2"
+USER_AGENT = "WiFiAuto-Updater/2.3"
 
 IS_WINDOWS = sys.platform.startswith("win")
 
@@ -162,11 +162,26 @@ def install_update(script_dir, info, log=_safe_print):
                 continue
             keep.add(name)
 
+        # The packages now ship with a top-level folder
+        # (WiFiAuto_v2/ or WiFiAuto_v2-linux/) so users extract a neat
+        # folder. When installing we strip that prefix so files land
+        # next to the running script, exactly like before.
+        strip_prefix = ""
+        if names:
+            first = next((n for n in names if n and not n.endswith("/")), "")
+            if "/" in first:
+                top = first.split("/", 1)[0]
+                if all(not n or n.split("/", 1)[0] == top for n in names):
+                    strip_prefix = top + "/"
+
+        def rel_path(name):
+            return name[len(strip_prefix):] if strip_prefix else name
+
         # Clean replace: remove files installed by the previous package
         # that are no longer part of the new package (no leftovers).
         state = load_state(script_dir)
         for old in state.get("installed_files", []):
-            if old in keep:
+            if old in {rel_path(k) for k in keep}:
                 continue
             if "__pycache__" in old or old.endswith(".pyc"):
                 continue
@@ -178,8 +193,10 @@ def install_update(script_dir, info, log=_safe_print):
                 except OSError:
                     pass
 
+        installed = []
         for name in keep:
-            dest = os.path.join(script_dir, name)
+            rel = rel_path(name)
+            dest = os.path.join(script_dir, rel)
             os.makedirs(os.path.dirname(dest), exist_ok=True)
             if os.path.exists(dest):
                 bak = dest + ".bak"
@@ -187,13 +204,14 @@ def install_update(script_dir, info, log=_safe_print):
                     if os.path.exists(bak):
                         os.remove(bak)
                     shutil.copy2(dest, bak)
-                    log(f"[updater] Backup: {name} -> {name}.bak")
+                    log(f"[updater] Backup: {rel} -> {rel}.bak")
                 except OSError:
                     pass
             extract(name, dest)
-            log(f"[updater] Installed: {name}")
+            log(f"[updater] Installed: {rel}")
+            installed.append(rel)
 
-        save_state(script_dir, installed_files=sorted(keep))
+        save_state(script_dir, installed_files=sorted(installed))
         return True
     finally:
         if tmp:

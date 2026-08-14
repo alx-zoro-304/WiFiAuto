@@ -22,6 +22,7 @@ import ipaddress
 import os
 import queue
 import re
+import signal
 import socket
 import struct
 import subprocess
@@ -36,7 +37,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from updater import start_update_check
 
 APP_TITLE = "WiFi Auto"
-APP_VERSION = "2.0"
+APP_VERSION = "2.3"
 DEVELOPER = "ALX-ZORO"
 
 ICON_B64 = "iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAABcElEQVR42u2bvQ0CMQxGPQOiQicKWmZiBoZlDKQrWAA6BKf7SWzHIeQVLq644nt2bCdxZLcfnj2bAAAAAAAAAAAQZ4fjedP+CkCK4JpA5FdFR8GQVoSXAiEtiveEIC0K9wQhrYu3QpAa4ofL9W2n2/hl0RAkQvyn4KlNAViBFAdgEZ7zrwVEMQAa4R7rWwOiGgBP4UsgqgDwFj+XA2pAkCjxmiQYAcEFQI54rzWfCsEMwCLemgy3QHhAcAFQOhluQSgGQOv9EpVgCYI1CsTb+ynita3wGoRwAGve13SGORVAEwXZALy9n5oQtYlPGwUS4X3LXqB0FLgB2PL+5/d9fCxailfnxIYD0FaENfFTCLmZvzoAq/dzo6A5ACni56KgWQCa8M9ZBgBgCZAEfwtAV2Ww+0ao61a4i81Q99thDkQ4EuNQlGNxLka4GuNylOtxBiQYkWFIijE5BiUZlWVYmnF5HkzwZIZHUzybA8AfAngBQZubRKg2MjUAAAAASUVORK5CYII="
@@ -59,6 +60,14 @@ PING_WAIT_SECONDS = 10
 EMPTY_ROUNDS_LIMIT = 5
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 REPORT_PATH = os.path.join(SCRIPT_DIR, "report.txt")
+MIKROTIK_DIR = os.path.join(SCRIPT_DIR, "MikrotikSploit")
+
+ANSI_COLORS = {
+    "30": "#0E1017", "31": "#EF4444", "32": "#10B981", "33": "#F59E0B",
+    "34": "#22D3EE", "35": "#A78BFA", "36": "#22D3EE", "37": "#E8EAED",
+    "90": "#9AA3B2", "91": "#EF4444", "92": "#10B981", "93": "#F59E0B",
+    "94": "#22D3EE", "95": "#A78BFA", "96": "#22D3EE", "97": "#E8EAED",
+}
 
 IS_WINDOWS = sys.platform.startswith("win")
 
@@ -90,6 +99,50 @@ def relaunch_as_admin():
         return code > 32
     except Exception:
         return False
+
+
+def get_device_info():
+    """Detect device model + OS + kernel version automatically."""
+    parts = []
+    if not IS_WINDOWS:
+        for p in ("/sys/class/dmi/id/sys_vendor",
+                  "/sys/class/dmi/id/product_name"):
+            try:
+                with open(p) as f:
+                    v = f.read().strip()
+            except OSError:
+                continue
+            if v and v.lower() not in ("none", "system product name",
+                                       "to be filled by o.e.m.", "oem",
+                                       "not specified"):
+                parts.append(v)
+        try:
+            with open("/etc/os-release") as f:
+                for line in f:
+                    if line.startswith("PRETTY_NAME="):
+                        parts.append(
+                            line.split("=", 1)[1].strip().strip('"'))
+                        break
+        except OSError:
+            pass
+        try:
+            parts.append(f"kernel {os.uname().release}")
+        except OSError:
+            pass
+    else:
+        try:
+            import platform as _pf
+            parts.append(f"{_pf.system()} {_pf.release()}")
+            cpu = _pf.processor()
+            if cpu:
+                parts.append(cpu)
+        except Exception:
+            pass
+    out = []
+    for p in parts:
+        if p and p not in out:
+            out.append(p)
+    return " | ".join(out) or "Unknown device"
 
 
 # ---------------------------------------------------------------------------
@@ -139,6 +192,38 @@ def run(cmd, timeout=60, no_window=True):
         return p.returncode, p.stdout, p.stderr
     except (subprocess.TimeoutExpired, OSError) as e:
         return -1, "", str(e)
+
+
+def run_in_terminal(cmd, cwd=None):
+    """Launch a command in a new terminal window (kept open)."""
+    if IS_WINDOWS:
+        subprocess.Popen(["cmd", "/c", "start", "", "cmd", "/k", cmd])
+        return
+    import shlex
+    full = f"cd {shlex.quote(cwd)} && {cmd}" if cwd else cmd
+    try:
+        subprocess.Popen(["gnome-terminal", "--", "bash", "-c", full])
+    except OSError:
+        subprocess.Popen(["xterm", "-e", "bash", "-c", full])
+
+
+def make_selectable_copyable(widget):
+    """Allow mouse selection + Ctrl+C / Ctrl+Shift+C copy on a Text widget,
+    while blocking typing/editing (read-only but copyable)."""
+    widget.configure(state=tk.NORMAL)
+
+    def _block(event):
+        ctrl = event.state & 0x4
+        if ctrl and event.keysym.lower() == "c":
+            try:
+                widget.event_generate("<<Copy>>")
+            except tk.TclError:
+                pass
+            return "break"
+        return "break"
+
+    widget.bind("<Key>", _block)
+    return widget
 
 
 # ---------------------------------------------------------------------------
@@ -1017,16 +1102,40 @@ class WiFiAutoApp:
         self.root.after(2500, self._check_for_updates)
 
     def _check_for_updates(self):
-        """Ask the official site if a newer version exists (non-blocking).
-        The user decides whether to download and install it."""
+        """Ask the official site if a newer version exists (non-blocking)."""
         start_update_check(
             self.root, SCRIPT_DIR, APP_VERSION, APP_TITLE,
             version_field="current_version",
-            log=lambda m: self.events.put(("log", m)))
+            log=lambda m: self.events.put(("log", m)),
+            on_version=self._apply_remote_version)
+
+    def _apply_remote_version(self, ver):
+        """Version comes from the site — sync every place that shows it."""
+        global APP_VERSION
+        APP_VERSION = str(ver)
+        try:
+            self.root.title(f"{APP_TITLE} v{APP_VERSION} — By {DEVELOPER}")
+            for lbl in self._ver_labels:
+                lbl.config(text=f"v{APP_VERSION}  •  Developed by {DEVELOPER}")
+            if getattr(self, "footer_ver_lbl", None) is not None:
+                self.footer_ver_lbl.config(
+                    text=f"{APP_TITLE} v{APP_VERSION} \u2022 "
+                         "Developed by " + DEVELOPER)
+        except Exception:
+            pass
 
     def _build_ui(self):
+        # ---- Notebook: Tab 1 = WiFi Auto, Tab 2 = MikrotikSploit ----
+        self.notebook = ttk.Notebook(self.root)
+        self.notebook.pack(fill=tk.BOTH, expand=True, padx=10, pady=(10, 6))
+        self.main_tab = ttk.Frame(self.notebook)
+        self.mikrotik_tab = ttk.Frame(self.notebook, padding=10)
+        self.notebook.add(self.main_tab, text="WiFi Auto")
+        self.notebook.add(self.mikrotik_tab, text="MikrotikSploit")
+        self._build_mikrotik_tab(self.mikrotik_tab)
+
         # ---- Header with logo and branding ----
-        header = tk.Frame(self.root, bg=COL_PANEL, bd=0)
+        header = tk.Frame(self.main_tab, bg=COL_PANEL, bd=0)
         header.pack(fill=tk.X, padx=10, pady=10)
         
         # Logo canvas or label
@@ -1046,11 +1155,16 @@ class WiFiAutoApp:
         sub_lbl = tk.Label(brand, text=f"v{APP_VERSION}  •  Developed by {DEVELOPER}",
                            bg=COL_PANEL, fg=COL_ACCENT, font=("Segoe UI", 9, "bold"))
         sub_lbl.pack(anchor=tk.W, pady=(2, 0))
+        self._ver_labels = [sub_lbl]
 
-        tk.Frame(self.root, bg=COL_BORDER, height=1).pack(fill=tk.X, padx=10)
+        dev_lbl = tk.Label(brand, text=get_device_info(),
+                           bg=COL_PANEL, fg=COL_MUTED, font=("Segoe UI", 8))
+        dev_lbl.pack(anchor=tk.W, pady=(3, 0))
+
+        tk.Frame(self.main_tab, bg=COL_BORDER, height=1).pack(fill=tk.X, padx=10)
 
         # ---- Adapter row ----
-        top = ttk.Frame(self.root, padding=10)
+        top = ttk.Frame(self.main_tab, padding=10)
         top.pack(fill=tk.X)
 
         ttk.Label(top, text="Adapter:").pack(side=tk.LEFT)
@@ -1070,7 +1184,7 @@ class WiFiAutoApp:
                   style="Muted.TLabel").pack(side=tk.RIGHT)
 
         # ---- WiFi list ----
-        wifi_frame = ttk.LabelFrame(self.root, text="Open WiFi networks (no password)",
+        wifi_frame = ttk.LabelFrame(self.main_tab, text="Open WiFi networks (no password)",
                                     padding=8)
         wifi_frame.pack(fill=tk.X, padx=10, pady=(0, 6))
 
@@ -1087,7 +1201,7 @@ class WiFiAutoApp:
         self.wifi_list.bind("<<ListboxSelect>>", self._on_wifi_selected)
 
         # ---- Buttons ----
-        btns = ttk.Frame(self.root, padding=10)
+        btns = ttk.Frame(self.main_tab, padding=10)
         btns.pack(fill=tk.X)
 
         self.start_btn = ttk.Button(btns, text="Start", style="Green.TButton",
@@ -1108,7 +1222,7 @@ class WiFiAutoApp:
         self.restore_btn.pack(side=tk.LEFT, padx=6)
 
         # ---- Status box ----
-        status_row = tk.Frame(self.root, bg=COL_PANEL)
+        status_row = tk.Frame(self.main_tab, bg=COL_PANEL)
         status_row.pack(fill=tk.X, padx=10)
         self.status_dot = tk.Label(status_row, text="\u25CF", fg=COL_MUTED,
                                    bg=COL_PANEL, font=("Segoe UI", 12))
@@ -1120,29 +1234,249 @@ class WiFiAutoApp:
         self.status_lbl.pack(side=tk.LEFT, fill=tk.X, expand=True, pady=6)
 
         # ---- Log ----
-        log_frame = ttk.LabelFrame(self.root, text="Log (also saved to report.txt)",
+        log_frame = ttk.LabelFrame(self.main_tab, text="Log (also saved to report.txt)",
                                    padding=8)
         log_frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=6)
-        self.log_text = tk.Text(log_frame, height=12, state=tk.DISABLED,
+        self.log_text = tk.Text(log_frame, height=12, state=tk.NORMAL,
                                 bg=COL_LOG_BG, fg=COL_TEXT, insertbackground=COL_TEXT,
                                 font=("Consolas", 9), relief=tk.FLAT,
                                 highlightthickness=1,
                                 highlightbackground=COL_BORDER)
+        make_selectable_copyable(self.log_text)
         log_scroll = ttk.Scrollbar(log_frame, command=self.log_text.yview)
         self.log_text.configure(yscrollcommand=log_scroll.set)
         self.log_text.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
         log_scroll.pack(side=tk.RIGHT, fill=tk.Y)
 
         # ---- Footer ----
-        tk.Frame(self.root, bg=COL_ACCENT, height=1).pack(fill=tk.X)
-        footer = tk.Frame(self.root, bg=COL_BG)
+        tk.Frame(self.main_tab, bg=COL_ACCENT, height=1).pack(fill=tk.X)
+        footer = tk.Frame(self.main_tab, bg=COL_BG)
         footer.pack(fill=tk.X)
-        ttk.Label(footer, text=f"{APP_TITLE} v{APP_VERSION} \u2022 "
+        self.footer_ver_lbl = ttk.Label(footer, text=f"{APP_TITLE} v{APP_VERSION} \u2022 "
                   "Developed by " + DEVELOPER,
-                  style="Version.TLabel").pack(side=tk.RIGHT, padx=14, pady=4)
+                  style="Version.TLabel")
+        self.footer_ver_lbl.pack(side=tk.RIGHT, padx=14, pady=4)
 
         if not IS_ROOT:
             self.log("[WARNING] Not running as Administrator/root! MAC change and advanced ARP sweep need admin privileges.")
+
+    # ---- MikrotikSploit tab ----
+    def _build_mikrotik_tab(self, parent):
+        info = tk.Frame(parent, bg=COL_PANEL)
+        info.pack(fill=tk.X, pady=(0, 10))
+        tk.Label(info, text="MikrotikSploit v0.1", bg=COL_PANEL,
+                 fg=COL_ACCENT, font=("Segoe UI", 13, "bold")).pack(anchor=tk.W, padx=10, pady=(8, 2))
+        tk.Label(info, text="Runs inside this window (no separate terminal).\n"
+                 "1) Getting Password  2) Hack Mikrotik Panel  3) DDoS  4) About  5) Update  6) Exit\n"
+                 "7) Exploit CVEs (14847 user.dat / API default creds / 24571 crash)\n"
+                 "8) Scan Network (find all MikroTik devices with versions)\n"
+                 "9) API Control (login + dump accounts + backdoor, needs open API)\n"
+                 "10) Session Status (live: what is reachable, what is blocked, how to proceed)\n"
+                 "Tip: press AUTO MODE to scan the whole network + run all 19 CVE checks + safe exploits automatically.\n"
+                 "Type the number below and press Enter.",
+                 bg=COL_PANEL, fg=COL_MUTED, font=("Segoe UI", 9), justify=tk.LEFT).pack(anchor=tk.W, padx=10, pady=(0, 8))
+
+        btns = ttk.Frame(parent)
+        btns.pack(fill=tk.X, pady=(0, 8))
+        self.mikrotik_run_btn = ttk.Button(btns, text="Run", style="Green.TButton",
+                                           command=self.run_mikrotik)
+        self.mikrotik_run_btn.pack(side=tk.LEFT)
+        self.mikrotik_stop_btn = ttk.Button(btns, text="Stop", style="Red.TButton",
+                                            state=tk.DISABLED, command=self.stop_mikrotik)
+        self.mikrotik_stop_btn.pack(side=tk.LEFT, padx=6)
+        ttk.Button(btns, text="Clear Console", command=self.clear_mikrotik_console).pack(side=tk.LEFT, padx=6)
+        ttk.Button(btns, text="Copy Console", command=self.copy_mikrotik_console).pack(side=tk.LEFT, padx=6)
+        ttk.Button(btns, text="Refresh Log", style="Accent.TButton",
+                   command=self.refresh_mikrotik_log).pack(side=tk.LEFT, padx=6)
+        ttk.Button(btns, text="Scan Network", style="Accent.TButton",
+                   command=self.scan_mikrotik_network).pack(side=tk.LEFT, padx=6)
+        ttk.Button(btns, text="AUTO MODE", style="Green.TButton",
+                   command=self.auto_mikrotik).pack(side=tk.LEFT, padx=6)
+
+        console_frame = ttk.LabelFrame(parent, text="Console (logs/logs.txt is saved too)", padding=8)
+        console_frame.pack(fill=tk.BOTH, expand=True)
+        self.mikrotik_console = tk.Text(console_frame, height=14, state=tk.NORMAL,
+                                        bg=COL_LOG_BG, fg=COL_TEXT, insertbackground=COL_TEXT,
+                                        font=("Consolas", 9), relief=tk.FLAT,
+                                        highlightthickness=1, highlightbackground=COL_BORDER,
+                                        wrap=tk.NONE)
+        make_selectable_copyable(self.mikrotik_console)
+        console_scroll = ttk.Scrollbar(console_frame, command=self.mikrotik_console.yview)
+        self.mikrotik_console.configure(yscrollcommand=console_scroll.set)
+        self.mikrotik_console.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+        console_scroll.pack(side=tk.RIGHT, fill=tk.Y)
+
+        input_row = ttk.Frame(parent)
+        input_row.pack(fill=tk.X, pady=(8, 0))
+        ttk.Label(input_row, text="Input:").pack(side=tk.LEFT)
+        self.mikrotik_input = ttk.Entry(input_row)
+        self.mikrotik_input.pack(side=tk.LEFT, fill=tk.X, expand=True, padx=6)
+        self.mikrotik_input.bind("<Return>", self.send_mikrotik_input)
+        self.mikrotik_console.bind("<Return>", self.send_mikrotik_input)
+        self.mikrotik_console.bind("<KP_Enter>", self.send_mikrotik_input)
+        self.mikrotik_send_btn = ttk.Button(input_row, text="Send", style="Accent.TButton",
+                                            command=self.send_mikrotik_input)
+        self.mikrotik_send_btn.pack(side=tk.LEFT)
+
+        self.mikrotik_proc = None
+        self._console_write(">>> Press 'Run' to start MikrotikSploit inside this window.\n")
+        self.refresh_mikrotik_log()
+
+    def _console_write(self, text):
+        pos = 0
+        fg = COL_TEXT
+        for m in re.finditer(r"\x1b\[[0-9;?]*[A-Za-z]", text):
+            self._insert_ansi(text[pos:m.start()], fg)
+            code = m.group(0)
+            if code.endswith("m"):
+                params = code[2:-1].split(";")
+                if "0" in params:
+                    fg = COL_TEXT
+                for p in params:
+                    if p in ANSI_COLORS:
+                        fg = ANSI_COLORS[p]
+            pos = m.end()
+        self._insert_ansi(text[pos:], fg)
+        self.mikrotik_console.see(tk.END)
+
+    def _insert_ansi(self, text, fg):
+        if not text:
+            return
+        text = text.replace("\r", "")
+        tag = "c" + fg.lstrip("#")
+        self.mikrotik_console.tag_configure(tag, foreground=fg)
+        self.mikrotik_console.insert(tk.END, text, tag)
+
+    def clear_mikrotik_console(self):
+        self.mikrotik_console.delete("1.0", tk.END)
+
+    def copy_mikrotik_console(self):
+        content = self.mikrotik_console.get("1.0", tk.END)
+        self.root.clipboard_clear()
+        self.root.clipboard_append(content)
+        self.log("[Mikrotik] Console copied to clipboard.")
+
+    def run_mikrotik(self):
+        self._launch_mikrotik([sys.executable, "-u", "MikrotikSploit.py"],
+                              "MikrotikSploit")
+
+    def scan_mikrotik_network(self):
+        self._launch_mikrotik([sys.executable, "-u", "modules/net_scan.py"],
+                              "Network Scan")
+
+    def auto_mikrotik(self):
+        self._launch_mikrotik([sys.executable, "-u", "modules/auto_mode.py"],
+                              "AUTO MODE")
+
+    def _launch_mikrotik(self, cmd, label):
+        if not os.path.isdir(MIKROTIK_DIR):
+            self.log(f"[ERROR] MikrotikSploit folder not found: {MIKROTIK_DIR}")
+            self._console_write(f">>> ERROR: folder not found: {MIKROTIK_DIR}\n")
+            return
+        if self.mikrotik_proc and self.mikrotik_proc.poll() is None:
+            self._console_write(">>> Already running. Press Stop first.\n")
+            return
+        try:
+            env = dict(os.environ)
+            env["PYTHONUNBUFFERED"] = "1"
+            self.mikrotik_proc = subprocess.Popen(
+                cmd, cwd=MIKROTIK_DIR, stdin=subprocess.PIPE,
+                stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+                env=env)
+        except OSError as exc:
+            self._console_write(f">>> ERROR launching: {exc}\n")
+            return
+        self.mikrotik_run_btn.configure(state=tk.DISABLED)
+        self.mikrotik_stop_btn.configure(state=tk.NORMAL)
+        self._console_write(f">>> {label} started (folder: {MIKROTIK_DIR})\n")
+        threading.Thread(target=self._mikrotik_reader, daemon=True).start()
+        self.log(f"[Mikrotik] {label} started inside the app console.")
+
+    def _mikrotik_reader(self):
+        proc = self.mikrotik_proc
+        if proc is None:
+            return
+        try:
+            while True:
+                if proc.poll() is not None:
+                    break
+                data = os.read(proc.stdout.fileno(), 4096)
+                if not data:
+                    break
+                self.root.after(0, lambda d=data: self._console_write(
+                    d.decode("utf-8", "replace")))
+        except OSError:
+            pass
+        self.root.after(0, self._mikrotik_on_exit)
+
+    def _mikrotik_on_exit(self):
+        self.mikrotik_run_btn.configure(state=tk.NORMAL)
+        self.mikrotik_stop_btn.configure(state=tk.DISABLED)
+        self._console_write(">>> MikrotikSploit closed.\n")
+
+    def stop_mikrotik(self):
+        proc = self.mikrotik_proc
+        if proc and proc.poll() is None:
+            try:
+                proc.send_signal(signal.SIGINT)
+            except OSError as exc:
+                self._console_write(f">>> Could not send SIGINT: {exc}\n")
+            try:
+                proc.wait(timeout=2)
+            except subprocess.TimeoutExpired:
+                self._console_write(">>> Still running, sending SIGTERM...\n")
+                try:
+                    proc.terminate()
+                    proc.wait(timeout=2)
+                except (OSError, subprocess.TimeoutExpired):
+                    self._console_write(">>> Still running, forcing kill...\n")
+                    try:
+                        proc.kill()
+                        proc.wait(timeout=2)
+                    except OSError as exc:
+                        self._console_write(f">>> Could not kill: {exc}\n")
+            if proc.poll() is not None:
+                self._console_write(">>> Process stopped.\n")
+                self.mikrotik_run_btn.configure(state=tk.NORMAL)
+                self.mikrotik_stop_btn.configure(state=tk.DISABLED)
+
+    def send_mikrotik_input(self, _event=None):
+        proc = self.mikrotik_proc
+        if not proc or proc.poll() is not None:
+            self._console_write(">>> Not running. Press Run first.\n")
+            return
+        text = self.mikrotik_input.get()
+        if not text.strip():
+            return
+        try:
+            proc.stdin.write(text.encode("utf-8") + b"\n")
+            proc.stdin.flush()
+            self._console_write(text + "\n")
+        except OSError as exc:
+            self._console_write(f">>> Input error: {exc}\n")
+        self.mikrotik_input.delete(0, tk.END)
+        self.mikrotik_input.focus_set()
+
+    def refresh_mikrotik_log(self):
+        try:
+            with open(os.path.join(MIKROTIK_DIR, "logs", "logs.txt"),
+                      "r", errors="replace") as f:
+                content = f.read()
+        except OSError:
+            content = ""
+        if not content.strip():
+            return
+        self._console_write("\n--- log file ---\n" + content)
+
+    def on_close(self):
+        """Kill the embedded MikrotikSploit process before closing."""
+        proc = self.mikrotik_proc
+        if proc and proc.poll() is None:
+            try:
+                proc.terminate()
+            except OSError:
+                pass
+        self.root.destroy()
 
     def _on_adapter_selected(self, _event=None):
         self.iface = self.iface_var.get()
@@ -1391,10 +1725,8 @@ class WiFiAutoApp:
 
     def log(self, text):
         self.log_lines.append(text)
-        self.log_text.configure(state=tk.NORMAL)
         self.log_text.insert(tk.END, text + "\n")
         self.log_text.see(tk.END)
-        self.log_text.configure(state=tk.DISABLED)
 
     def _poll_events(self):
         try:
@@ -1494,7 +1826,8 @@ def main():
         return
     root = tk.Tk()
     apply_dark_style(root)
-    WiFiAutoApp(root)
+    app = WiFiAutoApp(root)
+    root.protocol("WM_DELETE_WINDOW", lambda: app.on_close())
     root.mainloop()
 
 
