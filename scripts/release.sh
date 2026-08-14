@@ -5,17 +5,12 @@ ROOT="$(pwd)"
 SITE="https://alx-zoro-304.github.io/WiFiAuto"
 
 CUR_VER=$(python3 -c "import json; print(json.load(open('version.json'))['current_version'])")
-NEW_VER="${1:-}"
-if [ -z "$NEW_VER" ]; then
-  MAJOR="${CUR_VER%%.*}"
-  MINOR="${CUR_VER##*.}"
-  NEW_VER="$MAJOR.$((MINOR+1))"
-  echo "النسخة الحالية: v$CUR_VER → الإصدار الجديد تلقائياً: v$NEW_VER"
-  read -rp "تأكيد الرفع إلى v$NEW_VER؟ (y/N): " CONFIRM
-  [[ "$CONFIRM" =~ ^[yY] ]] || { echo "تم الإلغاء"; exit 1; }
-else
-  echo "النسخة الحالية: v$CUR_VER → الرفع إلى: v$NEW_VER"
-fi
+MAJOR="${CUR_VER%%.*}"
+MINOR="${CUR_VER##*.}"
+NEW_VER="$MAJOR.$((MINOR+1))"
+echo "النسخة الحالية: v$CUR_VER → الإصدار الجديد: v$NEW_VER"
+read -rp "تأكيد الرفع إلى v$NEW_VER؟ (y/N): " CONFIRM
+[[ "$CONFIRM" =~ ^[yY] ]] || { echo "تم الإلغاء"; exit 1; }
 if ! [[ "$NEW_VER" =~ ^[0-9]+\.[0-9]+$ ]]; then
   echo "صيغة غير صحيحة — استخدم مثال: 2.1"
   exit 1
