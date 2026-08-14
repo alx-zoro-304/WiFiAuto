@@ -1,0 +1,68 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Sync tool files into downloads
+        run: |
+          mkdir -p public/downloads
+          if [ -d tool ]; then
+            cp tool/*.py public/downloads/ 2>/dev/null || true
+            cp tool/*.bat public/downloads/ 2>/dev/null || true
+            cp tool/*.exe public/downloads/ 2>/dev/null || true
+            cp tool/start.sh public/downloads/ 2>/dev/null || true
+            if command -v zip >/dev/null; then
+              (cd tool && zip -r ../public/downloads/WiFiAuto_v2.zip . -x "*.pyc" "__pycache__/*") || true
+            fi
+            if command -v tar >/dev/null; then
+              (cd tool && tar -czf ../public/downloads/WiFiAuto_v2-linux.tar.gz wifi_auto_gui.py mac_changer_pro.py updater.py start.sh start.bat start_changer.bat) || \
+              (cd tool && tar -czf ../public/downloads/WiFiAuto_v2-linux.tar.gz wifi_auto_gui.py updater.py start.sh) || true
+            fi
+          fi
+          cp version.json public/version.json
+
+      - name: Build
+        run: npm run build
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
