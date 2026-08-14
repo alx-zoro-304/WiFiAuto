@@ -3,12 +3,48 @@
 # LAN MikroTik discovery - finds ALL responding MikroTik devices with
 # MAC, identity and RouterOS version (Winbox discovery protocol).
 
+import os
 import re
 import socket
+import subprocess
 import threading
 import time
 
 from color import R, P, W, B, N, T, Y, WOW
+
+if os.name == "nt":
+    try:
+        os.system("")
+    except Exception:
+        pass
+
+
+def _subnet_broadcasts():
+    """Per-interface subnet broadcasts (e.g. 192.168.1.255). Windows
+    firewalls often ignore the 255.255.255.255 flood, so we also
+    broadcast to every local subnet (/24 assumed)."""
+    targets = []
+    try:
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        s.connect(("8.8.8.8", 80))
+        ip = s.getsockname()[0]
+        s.close()
+        if ip and not ip.startswith("127."):
+            targets.append(".".join(ip.split(".")[:3]) + ".255")
+    except OSError:
+        pass
+    try:
+        for info in socket.getaddrinfo(socket.gethostname(), None):
+            ip = info[4][0]
+            if ip.count(".") == 3 and not ip.startswith("127."):
+                targets.append(".".join(ip.split(".")[:3]) + ".255")
+    except OSError:
+        pass
+    seen = []
+    for t in targets:
+        if t not in seen:
+            seen.append(t)
+    return seen
 
 
 def discover_all(timeout=6):
@@ -23,13 +59,14 @@ def discover_all(timeout=6):
         print(f"{W}[{R} - {W}]{B} Bind error: {e}{N}")
         return []
 
+    targets = ["255.255.255.255"] + _subnet_broadcasts()
     stop = False
 
     def _loop():
         while not stop:
             try:
-                sock.sendto(b"\x00\x00\x00\x00",
-                            ("255.255.255.255", 5678))
+                for t in targets:
+                    sock.sendto(b"\x00\x00\x00\x00", (t, 5678))
             except OSError:
                 return
             time.sleep(0.15)
@@ -71,18 +108,36 @@ def discover_all(timeout=6):
     return list(found.values())
 
 
+def _arp_table():
+    """MAC -> IP table, cross-platform (/proc/net/arp on Linux,
+    `arp -a` on Windows). Returns {} on failure."""
+    table = {}
+    try:
+        if os.name == "nt":
+            out = subprocess.run(["arp", "-a"], capture_output=True,
+                                 text=True, timeout=10).stdout
+            for line in out.splitlines():
+                m = re.search(
+                    r"([\d.]+)\s+([0-9a-fA-F-]{17})", line)
+                if m:
+                    ip, mac = m.group(1), m.group(2).replace("-", ":").lower()
+                    if mac != "00:00:00:00:00:00":
+                        table[mac] = ip
+        else:
+            with open("/proc/net/arp") as f:
+                lines = f.readlines()[1:]
+            for line in lines:
+                parts = line.split()
+                if len(parts) >= 4 and parts[3] != "00:00:00:00:00:00":
+                    table[parts[3].lower()] = parts[0]
+    except Exception:
+        return {}
+    return table
+
+
 def arp_resolve(devices):
     """Try to fill unknown IPs (0.0.0.0) using the ARP/neighbor table."""
-    try:
-        with open("/proc/net/arp") as f:
-            lines = f.readlines()[1:]
-    except OSError:
-        return devices
-    table = {}
-    for line in lines:
-        parts = line.split()
-        if len(parts) >= 4 and parts[3] != "00:00:00:00:00:00":
-            table[parts[3].lower()] = parts[0]
+    table = _arp_table()
     for d in devices:
         if d["ip"] in ("0.0.0.0", ""):
             d["ip"] = table.get(d["mac"].lower(), d["ip"])

@@ -17,7 +17,8 @@ import sys
 import time
 from re import split as SP
 from random import randint
-sys.path.append('../modules/')
+import os
+sys.path.append(os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), 'modules'))
 from tools import agent as _USER_AGENT
 from color import *
 try:

@@ -14,7 +14,7 @@
 
 
 import sys,os
-sys.path.append('./modules/')
+sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'modules'))
 from home import RunScript
 
 

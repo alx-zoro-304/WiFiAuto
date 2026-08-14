@@ -9,7 +9,7 @@ rm -f "$OUT/WiFiAuto_v2.zip"
 python3 - "$ROOT/tool" "$OUT/WiFiAuto_v2.zip" <<'EOF'
 import zipfile, os, sys
 src, dst = sys.argv[1], sys.argv[2]
-skip = ("__pycache__", ".pyc", ".bak")
+skip = ("__pycache__", ".pyc", ".bak", ".github")
 with zipfile.ZipFile(dst, "w", zipfile.ZIP_DEFLATED) as z:
     for root, dirs, files in os.walk(src):
         dirs[:] = [d for d in dirs if d not in skip]
@@ -22,7 +22,6 @@ with zipfile.ZipFile(dst, "w", zipfile.ZIP_DEFLATED) as z:
 print("ZIP rebuilt:", dst)
 EOF
 cp "$ROOT"/tool/*.bat "$ROOT"/tool/*.exe "$OUT/"
-cp "$ROOT/tool/start.sh" "$OUT/"
 cp "$ROOT/tool/wifi_auto_gui.py" "$OUT/wifi_auto_gui.py"
 cp "$ROOT/tool/mac_changer_pro.py" "$OUT/mac_changer_pro.py"
 
@@ -30,6 +29,7 @@ cp "$ROOT/tool/mac_changer_pro.py" "$OUT/mac_changer_pro.py"
 rm -f "$OUT/WiFiAuto_v2-linux.tar.gz"
 tar -czf "$OUT/WiFiAuto_v2-linux.tar.gz" \
     --exclude="__pycache__" --exclude="*.pyc" --exclude="*.bak" \
+    --exclude=".github" \
     -C "$ROOT/tool-linux" --transform 's,^,WiFiAuto_v2-linux/,' \
     wifi_auto_gui.py mac_changer_pro.py updater.py \
     start_wifi_auto.sh start_changer.sh "WiFi Auto.desktop" \

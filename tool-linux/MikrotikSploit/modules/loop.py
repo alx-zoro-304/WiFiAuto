@@ -13,6 +13,7 @@
 # *******************************************************************
 
 import re
+import os
 import sys
 import os
 import time
@@ -20,9 +21,9 @@ import requests
 import subprocess
 from tools import asc, EX818M
 from color import *
-sys.path.append('core/ex818m/')
+sys.path.append(os.path.join(_MIKROTIK_DIR, 'core', 'ex818m'))
 from ex818m import MAIN, write, cou
-sys.path.append('core/ExploitPanelAdmin/')
+sys.path.append(os.path.join(_MIKROTIK_DIR, 'core', 'ExploitPanelAdmin'))
 from find import MAC
 from run import RUN
 

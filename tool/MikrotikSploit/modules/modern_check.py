@@ -12,15 +12,23 @@ import struct
 import threading
 import time
 
-import requests
-
 try:
+    import requests
     requests.packages.urllib3.disable_warnings()
+    HAS_REQUESTS = True
 except Exception:
-    pass
+    requests = None
+    HAS_REQUESTS = False
 
 from color import (R, P, W, B, N, T, Y, WOW, F2, vulnexploit,
                    failexploit, portopen, portclose)
+
+
+def _http_note():
+    print(f"{W}[{Y} ! {W}]{B} HTTP-based checks skipped: the "
+          f"'requests' library is not installed.{N}")
+    print(f"{W}      Fix: run  {T}python -m pip install -r "
+          f"MikrotikSploit/requirements.txt{N}")
 
 
 class ModernChecker(object):
@@ -47,6 +55,9 @@ class ModernChecker(object):
             s.close()
 
     def _http(self, path, method="GET", data=None, headers=None):
+        if not HAS_REQUESTS:
+            _http_note()
+            return None
         try:
             kw = dict(timeout=self.timeout, verify=False,
                       allow_redirects=True)

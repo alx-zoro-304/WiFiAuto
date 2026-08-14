@@ -12,11 +12,13 @@
 #   Hathem Ahmed
 # *******************************************************************
 
+import os
 import sys
 from loop import LOOP, CLEAR
 from color import *
 
-sys.path.append('../core/ex818m/')
+sys.path.append(os.path.join(os.path.dirname(os.path.dirname(
+    os.path.abspath(__file__))), "core", "ex818m"))
 from ex818m import write
 s = "\033[1m"
 

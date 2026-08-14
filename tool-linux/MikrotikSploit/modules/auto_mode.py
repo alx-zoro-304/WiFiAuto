@@ -4,6 +4,7 @@
 # safe exploits automatically -> print a full report. One button in the GUI.
 # Destructive actions (CVE-2020-24571 crash) are NEVER run automatically.
 
+import os
 import sys
 import time
 
@@ -11,6 +12,12 @@ from color import R, P, W, B, N, T, Y, WOW, vulnexploit, failexploit
 from net_scan import discover_all, arp_resolve
 from exploit_actions import (_probe_target_version, userdat_dump,
                              api_default_creds)
+
+if os.name == "nt":
+    try:
+        os.system("")
+    except Exception:
+        pass
 
 
 def _scan_device(dev, pause=3):
@@ -77,6 +84,14 @@ def run_auto(scan_timeout=6, pause=3):
     if not devices:
         print(f"{W}[{R} - {W}]{B} No MikroTik devices answered on this LAN. "
               f"Nothing to do.{N}")
+        if os.name == "nt":
+            print(f"{W}[{Y} ! {W}]{B} Windows tips:{N}")
+            print(f"{W}     1. Allow Python through Windows Firewall "
+                  f"(private networks).{N}")
+            print(f"{W}     2. Run the app as Administrator "
+                  f"(start.bat does this automatically).{N}")
+            print(f"{W}     3. Make sure the device is on the same "
+                  f"network (and Wi-Fi isolation is OFF).{N}")
         return []
 
     report = []
